@@ -1,0 +1,19 @@
+var colors = {
+    "blue": 0x0000ff,
+    "red": 0xff0000,
+    "green": 0x00ff00,
+    "orange": 0xff6600, 
+    "yellow": 0xffff00, 
+    "white": 0xffffff, 
+}
+
+var faces = {
+    "right": 0,
+    "left": 1,
+    "top": 2,
+    "bottom": 3,
+    "front": 4,
+    "back": 5
+}
+
+export { colors, faces };
