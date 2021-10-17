@@ -2,3 +2,85 @@
     margin: 0;
     padding: 0;
 }
+
+body {
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    font-family: 'Open Sans', Arial, sans-serif;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+canvas {
+    display: block;
+}
+
+.three-container {
+    display: flex;
+    width: 75%;
+    height: 100%;
+}
+
+.guide-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    height: 100%;
+}
+
+.guide-dialog {
+    width: 80%;
+    max-height: 80%;
+    padding: 5%;
+    margin: 5%;
+    border-radius: 20px;
+    display: flex;
+    background: rgba(33, 33, 33, 0.8);
+    color: #fff;
+    flex-direction: column;
+}
+
+.guide-dialog h1 {
+    text-align: center;
+    font-size: 2vw;
+}
+
+.guide-dialog p {
+    margin-top: 5%;
+    font-size: 1.5vw;
+}
+
+.hidden {
+    display: none;
+}
+
+.guide-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    max-height: 20%;
+}
+
+.guide-buttons button {
+    border: none;
+    margin: 0 2%;
+    background: #333;
+    font-size: 2vw;
+    padding: 4% 3% 4% 4%;
+    color: #fff;
+    border-radius: 50%;
+    transition: background 1s ease;
+    -moz-transition: background 1s ease;
+    -webkit-transition: background 1s ease;
+    cursor: pointer;
+}
+
+.guide-buttons button:hover {
+    background: #666;
+}
