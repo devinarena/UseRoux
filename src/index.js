@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Cube from './cube';
 import * as state from './cubestates';
+import { setupUINavigation } from './statehandler';
 
 // Cube-X
 
@@ -18,14 +19,6 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
 
 let cube;
-
-let firstBlock = "Z' Y' U M' L' U L2 U' L' R' U' R U2 B";
-let secondBlock = "U' M' U R U' R M R U' R' M R' U R";
-let cmll = "U R' U' R' F R F' R U' R' U2 R";
-let fourA = "M U' M' U' M";
-let fourB = "U' M' U2 M U M2 U'";
-let fourC = "M U2 M U2";
-
 
 // Use a pivot so we can rotate the entire cube
 const pivot = new THREE.Group();
@@ -58,12 +51,8 @@ const init = () => {
     // update the state to start as scrambled
     state.updateCube(cube, state.scrambled);
 
-    cube.queueMoves(state.scrambled["firstBlock"]["algorithm"]);
-    cube.queueMoves(state.scrambled["secondBlock"]["algorithm"]);
-    cube.queueMoves(state.scrambled["CMLL"]["algorithm"]);
-    cube.queueMoves(state.scrambled["fourA"]["algorithm"]);
-    cube.queueMoves(state.scrambled["fourB"]["algorithm"]);
-    cube.queueMoves(state.scrambled["fourC"]["algorithm"]);
+    // Init UI navigation, cube is solved too so we need access to the cube
+    setupUINavigation(cube);
 }
 
 /**
@@ -90,11 +79,15 @@ const animate = () => {
 const updateCanvasSize = (force) => {
     const canvas = renderer.domElement;
 
+    // get current container size
     const width = threeContainer.clientWidth;
     const height = threeContainer.clientHeight;
 
+    // if container size is not canvas size, window has resized, we need to fix it
     if (force || canvas.width !== width || canvas.height !== height) {
+        // set the renderer size
         renderer.setSize(width, height, false);
+        // update the camera so it looks the same
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
     }

@@ -21,6 +21,9 @@ import solved from './cubestates/solved.json';
  * @description Contains logic for updating the state of the cube.
  */
 
+let currentState;
+const solveStages = [ "firstBlock", "secondBlock", "CMLL", "fourA", "fourB", "fourC" ];
+
 /**
  * Reads from a JSON file to update the cube.
  * 
@@ -28,13 +31,14 @@ import solved from './cubestates/solved.json';
  * @param {JSON} state the JSON state to read from
  */
 const updateCube = (cube, state) => {
+    currentState = state;
     for (let i = 0; i < state["state"].length; i++) {
         let cubie = cube.cube[i];
-        console.log(state["state"])
+        // change each face on the cubie based on the state JSON
         for (let curr in state["state"][i]) {
             cubie.setColor(curr, state["state"][i][curr]);
         }
     }
 }
 
-export { updateCube, scrambled, solved };
+export { updateCube, scrambled, solved, solveStages, currentState };

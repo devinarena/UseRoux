@@ -9,6 +9,7 @@ function Cube() {
     this.rotationInverted = 1;
     this.rotationState = 0;
     this.rotateGroup = new Group();
+    this.rotationDelay = 32;
 
     /**
      * Updates the cube by rotating it if necessary.
@@ -17,34 +18,44 @@ function Cube() {
      */
     this.update = (pivot) => {
         if (this.rotateGroup.children.length > 0) {
+            // Rotate on the proper axis for each type of move
             if (this.rotationDirection == 'l' || this.rotationDirection == 'm')
-                this.rotateGroup.rotateX(Math.PI / 48 * this.rotationInverted);
+                this.rotateGroup.rotateX(Math.PI / this.rotationDelay * this.rotationInverted);
             if (this.rotationDirection == 'r' || this.rotationDirection == 'x')
-                this.rotateGroup.rotateX(-Math.PI / 48 * this.rotationInverted);
+                this.rotateGroup.rotateX(-Math.PI / this.rotationDelay * this.rotationInverted);
             if (this.rotationDirection == 'u' || this.rotationDirection == 'y')
-                this.rotateGroup.rotateY(-Math.PI / 48 * this.rotationInverted);
+                this.rotateGroup.rotateY(-Math.PI / this.rotationDelay * this.rotationInverted);
             if (this.rotationDirection == 'd')
-                this.rotateGroup.rotateY(Math.PI / 48 * this.rotationInverted);
+                this.rotateGroup.rotateY(Math.PI / this.rotationDelay * this.rotationInverted);
             if (this.rotationDirection == 'f' || this.rotationDirection == 'z')
-                this.rotateGroup.rotateZ(-Math.PI / 48 * this.rotationInverted);
+                this.rotateGroup.rotateZ(-Math.PI / this.rotationDelay * this.rotationInverted);
             if (this.rotationDirection == 'b')
-                this.rotateGroup.rotateZ(Math.PI / 48 * this.rotationInverted);
+                this.rotateGroup.rotateZ(Math.PI / this.rotationDelay * this.rotationInverted);
+            // we rotate incrementally for an animation
             this.rotationState++;
-            if (this.rotationState == 24) {
+            // if we've hit the proper rotation (90 degrees)
+            if (this.rotationState == this.rotationDelay / 2) {
+                // remove the rotate group so we can add the cubies back to the pivot
                 pivot.remove(this.rotateGroup);
                 let cubies = [];
+                // grab each cubie from the rotation group
                 this.rotateGroup.traverse(cubie => {
                     if (cubie instanceof Mesh)
                         cubies.push(cubie);
                 });
+                // re-add the cubie to the pivot
                 cubies.forEach(cubie => {
                     pivot.attach(cubie);
                 });
+                // reset the rotation group for the next move
                 this.rotateGroup.rotation.set(0, 0, 0);
             }
         } else {
+            // if we have moves in the moves queue
             if (this.moves.length > 0) {
+                // rotate from the queue first move in the queue
                 this.rotate(pivot, this.moves[0].toLowerCase(), this.moves[0].toUpperCase() == this.moves[0]);
+                // remove the first move from the queue
                 this.moves.splice(0, 1);
             }
         }
@@ -62,8 +73,10 @@ function Cube() {
                 for (let k = 1; k >= -1; k--) {
                     // we don't need a middle cubie, its not visible
                     if (i == 0 && j == 0 && k == 0) continue;
+                    // add each cubie with a little bit of space in between
                     let cubie = new Cubie(i * 1.05, j * 1.05, k * 1.05);
                     this.cube.push(cubie);
+                    // add cubie to the pivot group
                     pivot.attach(cubie.getCube());
                 }
             }
@@ -75,15 +88,49 @@ function Cube() {
      * 
      * @param {String} moves the moves to add to the queue.
      */
-    this.queueMoves = (moves) => {
+     this.queueMoves = (moves) => {
+        // Move strings are split by spaces, each move is a space
         moves.split(" ").forEach(c => {
+            // Letter identification for the move
             let move = c[0];
+            // Prime moves are reversed (represented as a capital letter)
             if (!c.endsWith("'"))
                 move = move.toLowerCase();
+            // add the move once or twice if its a double move
             this.moves.push(move);
             if (c.includes("2"))
                 this.moves.push(move);
         });
+    }
+
+    /**
+     * Queues moves in reverse from a move string. String format must be: R U R2 U'
+     * 
+     * @param {String} moves the moves to add to the queue in forwards order.
+     */
+    this.queueMovesReversed = (moves) => {
+        let out = "";
+        // for each move in the move string
+        moves.split(" ").forEach(move => {
+            // flip the moves (add or remove a rpime)
+            if (move.endsWith("'"))
+                move = move.substring(move, move.length - 1);
+            else
+                move += "'";
+            // create a reversed output string
+            out = move + " " + out;
+        });
+        // add the moves to the move queue
+        this.queueMoves(out.trim());
+    }
+
+    /**
+     * Getter for if the cube is currently rotating (move queue is not empty).
+     * 
+     * @returns {boolean} true if the move queue contains moves, false otherwise.
+     */
+    this.inProgress = () => {
+        return this.moves.length > 0;
     }
 
     /**
@@ -95,11 +142,13 @@ function Cube() {
      * @returns true if the rotation was successful, false otherwise
      */
     this.rotate = (pivot, direction, inverted) => {
+        // if we're currently rotating stop
         if (this.rotateGroup.children.length != 0)
             return false;
         this.rotationDirection = direction;
         this.rotationInverted = inverted ? -1 : 1;
         this.rotationState = 0;
+        // this just adds the proper cubies to the rotation group depending on the move
         if (this.rotationDirection == 'l') {
             this.cube.forEach(cubie => {
                 if (cubie.getCube().position.x <= -1.05)
