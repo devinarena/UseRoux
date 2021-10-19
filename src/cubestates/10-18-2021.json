@@ -1,29 +1,30 @@
 {
+    "scramble": "B' F2 U F2 D U' B2 L2 B2 U2 F2 U' L2 R' F' R2 D2 R' D L U'",
     "firstBlock": {
-        "algorithm": "Z' Y' U M' L' U L2 U' L' R' U' R U2 B"
+        "algorithm": "Y2 F' U F' R U R' U' R2 L U' L'"
     },
     "secondBlock": {
-        "algorithm": "U' M' U R U' R M R U' R' M R' U R"
+        "algorithm": "R' U M' U R2 U M' U2 M U2 L F L2 B' L"
     },
     "CMLL": {
-        "algorithm": "U R' U' R' F R F' R U' R' U2 R"
+        "algorithm": "F R U' R' U' R U R' F' R U R' U' R' F R F'"
     },
     "fourA": {
-        "algorithm": "M U' M' U' M"
+        "algorithm": "U' M2 U M' U2 M' U' M'"
     },
     "fourB": {
-        "algorithm": "U' M' U2 M U M2 U'"
+        "algorithm": "U M' U2 M U' M2 U"
     },
     "fourC": {
-        "algorithm": "M U2 M U2"
+        "algorithm": ""
     },
     "state": [
         {
-            "left": "blue",
+            "left": "green",
             "right": "black",
             "top": "orange",
             "bottom": "black",
-            "front": "yellow",
+            "front": "white",
             "back": "black"
         },
         {
@@ -35,19 +36,19 @@
             "back": "black"
         },
         {
-            "left": "red",
+            "left": "blue",
             "right": "black",
-            "top": "green",
+            "top": "white",
             "bottom": "black",
             "front": "black",
-            "back": "yellow"
+            "back": "red"
         },
         {
-            "left": "yellow",
+            "left": "orange",
             "right": "black",
             "top": "black",
             "bottom": "black",
-            "front": "orange",
+            "front": "white",
             "back": "black"
         },
         {
@@ -59,36 +60,36 @@
             "back": "black"
         },
         {
-            "left": "white",
+            "left": "blue",
             "right": "black",
             "top": "black",
             "bottom": "black",
             "front": "black",
-            "back": "blue"
+            "back": "yellow"
         },
         {
-            "left": "yellow",
+            "left": "orange",
+            "right": "black",
+            "top": "black",
+            "bottom": "yellow",
+            "front": "green",
+            "back": "black"
+        },
+        {
+            "left": "white",
             "right": "black",
             "top": "black",
             "bottom": "green",
-            "front": "orange",
-            "back": "black"
-        },
-        {
-            "left": "white",
-            "right": "black",
-            "top": "black",
-            "bottom": "orange",
             "front": "black",
             "back": "black"
         },
         {
-            "left": "white",
+            "left": "red",
             "right": "black",
             "top": "black",
-            "bottom": "red",
+            "bottom": "blue",
             "front": "black",
-            "back": "green"
+            "back": "yellow"
         },
         {
             "left": "black",
@@ -109,10 +110,10 @@
         {
             "left": "black",
             "right": "black",
-            "top": "orange",
+            "top": "blue",
             "bottom": "black",
             "front": "black",
-            "back": "green"
+            "back": "orange"
         },
         {
             "left": "black",
@@ -134,37 +135,37 @@
             "left": "black",
             "right": "black",
             "top": "black",
-            "bottom": "yellow",
-            "front": "blue",
-            "back": "black"
-        },
-        {
-            "left": "black",
-            "right": "black",
-            "top": "black",
-            "bottom": "yellow",
-            "front": "black",
-            "back": "black"
-        },
-        {
-            "left": "black",
-            "right": "black",
-            "top": "black",
             "bottom": "green",
-            "front": "black",
-            "back": "yellow"
-        },
-        {
-            "left": "black",
-            "right": "green",
-            "top": "white",
-            "bottom": "black",
             "front": "orange",
             "back": "black"
         },
         {
             "left": "black",
-            "right": "blue",
+            "right": "black",
+            "top": "black",
+            "bottom": "yellow",
+            "front": "black",
+            "back": "black"
+        },
+        {
+            "left": "black",
+            "right": "black",
+            "top": "black",
+            "bottom": "white",
+            "front": "black",
+            "back": "red"
+        },
+        {
+            "left": "black",
+            "right": "orange",
+            "top": "blue",
+            "bottom": "black",
+            "front": "yellow",
+            "back": "black"
+        },
+        {
+            "left": "black",
+            "right": "yellow",
             "top": "orange",
             "bottom": "black",
             "front": "black",
@@ -172,18 +173,18 @@
         },
         {
             "left": "black",
-            "right": "white",
-            "top": "orange",
+            "right": "red",
+            "top": "green",
             "bottom": "black",
             "front": "black",
-            "back": "blue"
+            "back": "white"
         },
         {
             "left": "black",
             "right": "white",
             "top": "black",
             "bottom": "black",
-            "front": "red",
+            "front": "blue",
             "back": "black"
         },
         {
@@ -196,7 +197,7 @@
         },
         {
             "left": "black",
-            "right": "red",
+            "right": "green",
             "top": "black",
             "bottom": "black",
             "front": "black",
@@ -204,25 +205,25 @@
         },
         {
             "left": "black",
+            "right": "orange",
+            "top": "black",
+            "bottom": "blue",
+            "front": "white",
+            "back": "black"
+        },
+        {
+            "left": "black",
             "right": "red",
             "top": "black",
-            "bottom": "white",
-            "front": "blue",
+            "bottom": "yellow",
+            "front": "black",
             "back": "black"
         },
         {
             "left": "black",
             "right": "green",
             "top": "black",
-            "bottom": "white",
-            "front": "black",
-            "back": "black"
-        },
-        {
-            "left": "black",
-            "right": "yellow",
-            "top": "black",
-            "bottom": "blue",
+            "bottom": "yellow",
             "front": "black",
             "back": "red"
         }

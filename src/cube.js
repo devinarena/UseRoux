@@ -10,6 +10,7 @@ function Cube() {
     this.rotationState = 0;
     this.rotateGroup = new Group();
     this.rotationDelay = 32;
+    this.faceColors = {};
 
     /**
      * Updates the cube by rotating it if necessary.
@@ -88,9 +89,12 @@ function Cube() {
      * 
      * @param {String} moves the moves to add to the queue.
      */
-     this.queueMoves = (moves) => {
+    this.queueMoves = (moves) => {
+        if (!moves.includes(" "))
+            moves += " ";
         // Move strings are split by spaces, each move is a space
         moves.split(" ").forEach(c => {
+            if (c.length === 0) return; // skip empty strings
             // Letter identification for the move
             let move = c[0];
             // Prime moves are reversed (represented as a capital letter)
@@ -112,6 +116,7 @@ function Cube() {
         let out = "";
         // for each move in the move string
         moves.split(" ").forEach(move => {
+            if (move.length === 0) return; // skip empty strings
             // flip the moves (add or remove a rpime)
             if (move.endsWith("'"))
                 move = move.substring(move, move.length - 1);
@@ -149,59 +154,102 @@ function Cube() {
         this.rotationInverted = inverted ? -1 : 1;
         this.rotationState = 0;
         // this just adds the proper cubies to the rotation group depending on the move
-        if (this.rotationDirection == 'l') {
+        if (this.rotationDirection === 'l') {
             this.cube.forEach(cubie => {
-                if (cubie.getCube().position.x <= -1.05)
+                if (cubie.getCube().position.x <= -1.05) {
+                    cubie.rotate('x', !inverted);
                     this.rotateGroup.add(cubie.getCube());
+                }
             });
-        } else if (this.rotationDirection == 'r') {
+        } else if (this.rotationDirection === 'r') {
             this.cube.forEach(cubie => {
-                if (cubie.getCube().position.x >= 1.05)
+                if (cubie.getCube().position.x >= 1.05) {
+                    cubie.rotate('x', inverted);
                     this.rotateGroup.add(cubie.getCube());
+                }
             });
-        } else if (this.rotationDirection == 'u') {
+        } else if (this.rotationDirection === 'u') {
             this.cube.forEach(cubie => {
-                if (cubie.getCube().position.y >= 1.05)
+                if (cubie.getCube().position.y >= 1.05) {
+                    cubie.rotate('y', !inverted);
                     this.rotateGroup.add(cubie.getCube());
+                }
             });
-        } else if (this.rotationDirection == 'd') {
+        } else if (this.rotationDirection === 'd') {
             this.cube.forEach(cubie => {
-                if (cubie.getCube().position.y <= -1.05)
+                if (cubie.getCube().position.y <= -1.05) {
+                    cubie.rotate('y', inverted);
                     this.rotateGroup.add(cubie.getCube());
+                }
             });
-        } else if (this.rotationDirection == 'f') {
+        } else if (this.rotationDirection === 'f') {
             this.cube.forEach(cubie => {
-                if (cubie.getCube().position.z >= 1.05)
+                if (cubie.getCube().position.z >= 1.05) {
+                    cubie.rotate('z', !inverted);
                     this.rotateGroup.add(cubie.getCube());
+                }
             });
-        } else if (this.rotationDirection == 'b') {
+        } else if (this.rotationDirection === 'b') {
             this.cube.forEach(cubie => {
-                if (cubie.getCube().position.z <= -1.05)
+                if (cubie.getCube().position.z <= -1.05) {
+                    cubie.rotate('z', inverted);
                     this.rotateGroup.add(cubie.getCube());
+                }
             });
-        } else if (this.rotationDirection == 'm') {
+        } else if (this.rotationDirection === 'm') {
             this.cube.forEach(cubie => {
-                if (cubie.getCube().position.x > -1 && cubie.getCube().position.x < 1)
+                if (cubie.getCube().position.x > -1 && cubie.getCube().position.x < 1) {
+                    cubie.rotate('x', !inverted);
                     this.rotateGroup.add(cubie.getCube());
+                }
             });
         }
         // These groups rotate the entire cube in a direction 
-        else if (this.rotationDirection == 'x') {
+        else if (this.rotationDirection === 'x') {
             this.cube.forEach(cubie => {
+                cubie.rotate('x', inverted);
                 this.rotateGroup.add(cubie.getCube());
             });
-        } else if (this.rotationDirection == 'y') {
+        } else if (this.rotationDirection === 'y') {
             this.cube.forEach(cubie => {
+                cubie.rotate('y', !inverted);
                 this.rotateGroup.add(cubie.getCube());
             });
-        } else if (this.rotationDirection == 'z') {
+        } else if (this.rotationDirection === 'z') {
             this.cube.forEach(cubie => {
+                cubie.rotate('z', !inverted);
                 this.rotateGroup.add(cubie.getCube());
             });
         }
         pivot.add(this.rotateGroup);
         return true;
     }
+
+    /**
+     * Used in the console to print the current state of a cube, 
+     * makes it easy for me to generate scrambled state JSON.
+     */
+    this.printState = () => {
+        let out = "";
+        let cubies = [];
+        for (let cubie of this.cube) {
+            // generate an ID from 0-26 based on original generation of cube
+            let x = Math.round(cubie.getCube().position.x);
+            let y = Math.round(cubie.getCube().position.y);
+            let z = Math.round(cubie.getCube().position.z);
+            let index = 9 * (x + 1) + (3 * (1 - y) + (1 - z));
+            if (index >= 14) index--; // because we have no middle cubie
+            cubies[index] = JSON.stringify(cubie.getFaces());
+        }
+        // concat onto output string
+        for (let cubie of cubies) {
+            out += cubie + ",";
+        }
+        // print so i can copy and paste
+        console.log(out.substring(out, out.length - 1));
+        // TODO: maybe eventually just save the JSON to a file?
+    }
+    
 }
 
 export default Cube;
