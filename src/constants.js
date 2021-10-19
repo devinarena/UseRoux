@@ -5,6 +5,7 @@ var colors = {
     "orange": 0xff6600, 
     "yellow": 0xffff00, 
     "white": 0xffffff, 
+    "black": 0x000000
 }
 
 var faces = {
@@ -16,4 +17,6 @@ var faces = {
     "back": 5
 }
 
-export { colors, faces };
+var faceList = [ "right", "left", "top", "bottom", "front", "back" ];
+
+export { colors, faces, faceList };

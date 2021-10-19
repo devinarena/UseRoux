@@ -115,6 +115,10 @@ document.addEventListener("keypress", evt => {
         evt.key === 'Z') {
         cube.rotate(pivot, evt.key.toLowerCase(), true);
     }
+
+    if (evt.key === 'P') {
+        cube.printState();
+    }
 });
 
 /**

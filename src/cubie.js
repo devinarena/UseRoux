@@ -1,5 +1,5 @@
 import { BoxGeometry, MeshBasicMaterial, Mesh, DoubleSide } from 'three';
-import { colors, faces } from "./constants";
+import { colors, faces, faceList } from "./constants";
 
 /**
  * @file: Cubie.js
@@ -33,6 +33,59 @@ function Cubie(x, y, z) {
     this.cube = new Mesh(this.geometry, this.cubeMaterials);
     // set position to given position
     this.cube.position.set(x, y, z);
+    this.faceColors = {};
+
+    /**
+     * Reassigns face colors based on a rotation.
+     * 
+     * @param {Character} axis either 'x', 'y', or 'z' axis
+     * @param {boolean} clockwise if the rotation is clockwise or counterclockwise
+     */
+    this.rotate = (axis, clockwise) => {
+        if (axis === 'x') {
+            if (clockwise) {
+                let temp = this.faceColors["top"];
+                this.faceColors["top"] = this.faceColors["back"];
+                this.faceColors["back"] = this.faceColors["bottom"];
+                this.faceColors["bottom"] = this.faceColors["front"];
+                this.faceColors["front"] = temp;
+            } else {
+                let temp = this.faceColors["top"];
+                this.faceColors["top"] = this.faceColors["front"];
+                this.faceColors["front"] = this.faceColors["bottom"];
+                this.faceColors["bottom"] = this.faceColors["back"];
+                this.faceColors["back"] = temp;
+            }
+        } else if (axis === 'y') {
+            if (clockwise) {
+                let temp = this.faceColors["front"];
+                this.faceColors["front"] = this.faceColors["right"];
+                this.faceColors["right"] = this.faceColors["back"];
+                this.faceColors["back"] = this.faceColors["left"];
+                this.faceColors["left"] = temp;
+            } else {
+                let temp = this.faceColors["front"];
+                this.faceColors["front"] = this.faceColors["left"];
+                this.faceColors["left"] = this.faceColors["back"];
+                this.faceColors["back"] = this.faceColors["right"];
+                this.faceColors["right"] = temp;
+            }
+        } else if (axis == 'z') {
+            if (clockwise) {
+                let temp = this.faceColors["top"];
+                this.faceColors["top"] = this.faceColors["left"];
+                this.faceColors["left"] = this.faceColors["bottom"];
+                this.faceColors["bottom"] = this.faceColors["right"];
+                this.faceColors["right"] = temp;
+            } else {
+                let temp = this.faceColors["top"];
+                this.faceColors["top"] = this.faceColors["right"];
+                this.faceColors["right"] = this.faceColors["bottom"];
+                this.faceColors["bottom"] = this.faceColors["left"];
+                this.faceColors["left"] = temp;
+            }
+        }
+    }
 
     /**
      * Sets the color of a specific face of the cubie using Strings.
@@ -43,6 +96,7 @@ function Cubie(x, y, z) {
 
     this.setColor = (side, color) => {
         this.cubeMaterials[faces[side]].color.setHex(colors[color]);
+        this.faceColors[side] = color;
     }
 
     /**
@@ -52,6 +106,15 @@ function Cubie(x, y, z) {
      */
      this.getCube = () => {
         return this.cube;
+    }
+
+    /**
+     * Prints out a dictionary of each color of each face.
+     * 
+     * @returns a dictionary of each face and color (will be used for states)
+     */
+    this.getFaces = () => {
+        return this.faceColors;
     }
 }
 

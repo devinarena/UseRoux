@@ -1,5 +1,3 @@
-// U2 B2 D' B R' D F' R U F2 L2 F2 L2 U2 F L2 B' U2 B' L2 U2
-
 /*
     {
         "left": "black",
@@ -11,8 +9,9 @@
     }
 */
 
-import scrambled from './cubestates/scrambled.json';
 import solved from './cubestates/solved.json';
+import scrambled from './cubestates/10-17-2021.json';
+import todays from "./cubestates/10-18-2021.json";
 
 /**
  * @file: cubestate.js
@@ -41,4 +40,4 @@ const updateCube = (cube, state) => {
     }
 }
 
-export { updateCube, scrambled, solved, solveStages, currentState };
+export { updateCube, scrambled, solved, todays, solveStages, currentState };
