@@ -9,9 +9,7 @@
     }
 */
 
-import solved from './cubestates/solved.json';
-import scrambled from './cubestates/10-17-2021.json';
-import todays from "./cubestates/10-18-2021.json";
+import scrambled from './cubestates/10-18-2021.json';
 
 /**
  * @file: cubestate.js
@@ -22,6 +20,16 @@ import todays from "./cubestates/10-18-2021.json";
 
 let currentState;
 const solveStages = [ "firstBlock", "secondBlock", "CMLL", "fourA", "fourB", "fourC" ];
+
+const scrambles = "./cubestates";
+
+const scrambleSelector = document.getElementById("scrambleSelector");
+
+/**
+ * Initializes the scramble selector.
+ */
+const init = () => {
+}
 
 /**
  * Reads from a JSON file to update the cube.
@@ -38,6 +46,15 @@ const updateCube = (cube, state) => {
             cubie.setColor(curr, state["state"][i][curr]);
         }
     }
+    // Update any scrambles on the dialogs
+    for (let dialogs of document.getElementsByClassName("guide-dialog")) {
+        for (let scramble of dialogs.getElementsByClassName("scramble")) {
+            scramble.innerHTML = state["scramble"];
+        }
+        if (solveStages.includes(dialogs.className.split(" ")[1])) {
+            dialogs.innerHTML += state[dialogs.className.split(" ")[1]]["extraText"];
+        }
+    }
 }
 
-export { updateCube, scrambled, solved, todays, solveStages, currentState };
+export { init, updateCube, scrambled, solveStages, currentState };

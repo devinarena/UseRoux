@@ -19,15 +19,21 @@
         <div class="three-container">
         </div>
         <div class="guide-container">
-            <div class="guide-dialog">
+            <div class="guide-dialog menu">
                 <h1>Use Roux</h1>
+                <p>Welcome to UseRoux. To start learning, please select a scramble and do the same scramble on your cube.</p>
+                <select id="scrambleChoice" name="scrambleChoice">
+                </select>
+            </div>
+            <div class="guide-dialog intro hidden">
+                <h1>Getting Started</h1>
                 <p>Hello and welcome! This is an interactive guide site for using the superior cubing method, Roux.</p>
                 <p>You can use the buttons above to navigate through each individual step of solving the cube.</p>
                 <p>You can use your mouse or finger to orbit around the cube by pressing and dragging. The scroll wheel and pinching can be used to zoom in/out.</p>
                 <p>The scramble shown in this example is (green front, white top):</p>
-                <p>U2 B2 D' B R' D F' R U F2 L2 F2 L2 U2 F L2 B' U2 B' L2 U2</p>
+                <p class="scramble"></p>
             </div>
-            <div class="guide-dialog hidden">
+            <div class="guide-dialog firstBlock hidden">
                 <h1>First Block</h1>
                 <p>The first step for solving the cube using Roux is to solve a 2x3x1 block on the left side.</p>
                 <p>This step is complete intuition, look for pairs that are already made or easy to make.</p>
@@ -35,7 +41,7 @@
                 <p>For this example, you can easily solve first block with blue on the side and white on the bottom using:</p>
                 <p class="algorithm"></p>
             </div>
-            <div class="guide-dialog hidden">
+            <div class="guide-dialog secondBlock hidden">
                 <h1>Second Block</h1>
                 <p>For second block, as you probably guessed, we'll be creating the opposite block on the other side.</p>
                 <p>This step is also intuition, insert the center's edge, then make both pairs and insert them.</p>
@@ -43,7 +49,7 @@
                 <p>For this example, after solving the first block, you can solve the second block with green on the side and white on bottom using: </p>
                 <p class="algorithm"></p>
             </div>
-            <div class="guide-dialog hidden">
+            <div class="guide-dialog CMLL hidden">
                 <h1>CMLL</h1>
                 <p>This is the only algorithmic step in all of Roux (besides very short and unnecessary 4a algorithms). Similar to OLL, just grind the algorithms until you have them all memorized (there is about half the amount in CFOP).</p>
                 <p>Some recognition can be difficult, so try slow solves to work on recognizing CMLL cases.</p>
@@ -51,7 +57,7 @@
                 <p>For this example, the CMLL algorithm is just:</p>
                 <p class="algorithm"></p>
             </div>
-            <div class="guide-dialog hidden">
+            <div class="guide-dialog fourA hidden">
                 <h1>4a</h1>
                 <p>The last step of Roux is step 4 and is split into an a, b, and c part. 4a involves orienting all white and yellow edges on the cube.</p>
                 <p>In order to orient white and yellow edges, our first goal is to get the good arrow on top of the cube. The good arrow is three unoriented edges on top of the cube in the shape of an arrow.</p>
@@ -62,7 +68,7 @@
                 <p>For this example, you can orient all the edges after CMLL using:</p>
                 <p class="algorithm"></p>
             </div>
-            <div class="guide-dialog hidden">
+            <div class="guide-dialog fourB hidden">
                 <h1>4b</h1>
                 <p>4b is the second part of step four and involves solving the UL/UR edges (the top edge on the left and right side of the cube).</p>
                 <p>You can solve these edges by placing the UL edge in the front bottom slot and the UR edge in the back bottonm slot or vice versa.</p>
@@ -71,7 +77,7 @@
                 <p>For this example, you can solve the UL/UR edges after 4a using: </p>
                 <p class="algorithm"></p>
             </div>
-            <div class="guide-dialog hidden">
+            <div class="guide-dialog fourC hidden">
                 <h1>4c</h1>
                 <p>4c the final part of solving a cube using Roux. It is also the easiest step.</p>
                 <p>There are 3 total cases each with 1 or 2 variants and a short algorithm to accompany it. None of these algorithms are necessary and the cube can be intuitively solved for all of step 4.</p>

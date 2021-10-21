@@ -44,6 +44,8 @@ const init = () => {
 
     updateCanvasSize(true);
 
+    state.init();
+
     // initialize the starting cube by creating 27 cubies
     cube = new Cube();
     cube.setupCube(pivot);

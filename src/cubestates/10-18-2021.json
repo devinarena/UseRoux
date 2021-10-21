@@ -1,22 +1,28 @@
 {
     "scramble": "B' F2 U F2 D U' B2 L2 B2 U2 F2 U' L2 R' F' R2 D2 R' D L U'",
     "firstBlock": {
-        "algorithm": "Y2 F' U F' R U R' U' R2 L U' L'"
+        "algorithm": "Y2 F' U F' R U R' U' R2 L U' L'",
+        "extraText": ""
     },
     "secondBlock": {
-        "algorithm": "R' U M' U R2 U M' U2 M U2 L F L2 B' L"
+        "algorithm": "R' U M' U R2 U M' U2 M U2 L F L2 B' L",
+        "extraText": ""
     },
     "CMLL": {
-        "algorithm": "F R U' R' U' R U R' F' R U R' U' R' F R F'"
+        "algorithm": "F R U' R' U' R U R' F' R U R' U' R' F R F'",
+        "extraText": ""
     },
     "fourA": {
-        "algorithm": "U' M2 U M' U2 M' U' M'"
+        "algorithm": "U' M2 U M' U2 M' U' M'",
+        "extraText": ""
     },
     "fourB": {
-        "algorithm": "U M' U2 M U' M2 U"
+        "algorithm": "U M' U2 M U' M2 U",
+        "extraText": "<p>In this case, we get a 4c skip and the cube is already solved after 4b.</p>"
     },
     "fourC": {
-        "algorithm": ""
+        "algorithm": "",
+        "extraText": ""
     },
     "state": [
         {

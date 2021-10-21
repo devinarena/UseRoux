@@ -39,11 +39,13 @@ const nextPage = (cube) => {
         }
     }
     // queue moves to get into this state
-    let algorithm = currentState[solveStages[currPage - 1]]["algorithm"];
-    for (let element of dialogs[currPage].getElementsByClassName("algorithm")) {
-        element.innerHTML = algorithm;
+    if (solveStages.includes(dialogs[currPage].className.split(" ")[1])) {
+        let algorithm = currentState[dialogs[currPage].className.split(" ")[1]]["algorithm"];
+        for (let element of dialogs[currPage].getElementsByClassName("algorithm")) {
+            element.innerHTML = algorithm;
+        }
+        cube.queueMoves(algorithm);
     }
-    cube.queueMoves(algorithm);
 }
 
 /**
@@ -72,7 +74,8 @@ const prevPage = (cube) => {
         }
     }
     // queue reversed moves to get back into this state
-    cube.queueMovesReversed(currentState[solveStages[currPage]]["algorithm"]);
+    if (solveStages.includes(dialogs[currPage].className.split(" ")[1]))
+        cube.queueMovesReversed(currentState[dialogs[currPage].className.split(" ")[1]]["algorithm"]);
 }
 
 /**
