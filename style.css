@@ -95,3 +95,22 @@ canvas {
 .algorithm {
     text-align: center;
 }
+
+#scrambleChoice {
+    margin: 5% 0;
+    font-size: 2vw;
+    font-weight: bold;
+    text-align: center;
+    color: #fff;
+    background: black;
+    border: 3px solid white;
+    transition: background 1s ease, border 1s ease;
+    -moz-transition: background 1s ease, border 1s ease;
+    -webkit-transition: background 1s ease, border 1s ease;
+}
+
+#scrambleChoice:focus {
+    outline: none;
+    background: #111;
+    border: 3px solid #999;
+}
