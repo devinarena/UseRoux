@@ -9,7 +9,7 @@
     }
 */
 
-import scrambled from './cubestates/10-18-2021.json';
+import * as states from './cubestate/cubestate.config';
 
 /**
  * @file: cubestate.js
@@ -21,14 +21,16 @@ import scrambled from './cubestates/10-18-2021.json';
 let currentState;
 const solveStages = [ "firstBlock", "secondBlock", "CMLL", "fourA", "fourB", "fourC" ];
 
-const scrambles = "./cubestates";
-
-const scrambleSelector = document.getElementById("scrambleSelector");
+const scrambleSelector = document.getElementById("scrambleChoice");
 
 /**
  * Initializes the scramble selector.
  */
 const init = () => {
+    // add an option for all imported states
+    for (const scramble of Object.keys(states)) {
+        scrambleSelector.innerHTML += "<option value=" + scramble + ">" + scramble + "</option>\n";
+    }
 }
 
 /**
@@ -46,15 +48,26 @@ const updateCube = (cube, state) => {
             cubie.setColor(curr, state["state"][i][curr]);
         }
     }
+    updateDialogs(state);
+}
+
+/**
+ * Updates all the dialogs with new state strings from JSON.
+ * 
+ * @param {JSON} state the JSON state to read from
+ */
+const updateDialogs = (state) => {
+    currentState = state;
     // Update any scrambles on the dialogs
     for (let dialogs of document.getElementsByClassName("guide-dialog")) {
         for (let scramble of dialogs.getElementsByClassName("scramble")) {
-            scramble.innerHTML = state["scramble"];
+            scramble.innerHTML = currentState["scramble"];
         }
         if (solveStages.includes(dialogs.className.split(" ")[1])) {
-            dialogs.innerHTML += state[dialogs.className.split(" ")[1]]["extraText"];
+            if (currentState.hasOwnProperty(dialogs.className.split(" ")[1]))
+                dialogs.innerHTML += currentState[dialogs.className.split(" ")[1]]["extraText"];
         }
     }
 }
 
-export { init, updateCube, scrambled, solveStages, currentState };
+export { init, updateCube, updateDialogs, states, solveStages, currentState, scrambleSelector };
