@@ -1,0 +1,237 @@
+{
+    "scramble": "D2 R2 B2 F2 U B2 D' B2 R2 D F2 L2 F' U L' F U2 L2 R F' R",
+    "firstBlock": {
+        "algorithm": "Y2 B L' F2 L U L' U R' U R U2 B",
+        "extraText": ""
+    },
+    "secondBlock": {
+        "algorithm": "L' U R2 U' L R' U2 R U2 R' U' R",
+        "extraText": ""
+    },
+    "CMLL": {
+        "algorithm": "U' R' U' R U R' F' R U R' U' R' F R2",
+        "extraText": ""
+    },
+    "fourA": {
+        "algorithm": "M U' M' U' M U' M U' M' U' M'",
+        "extraText": ""
+    },
+    "fourB": {
+        "algorithm": "U' M' U2 M' U M2",
+        "extraText": ""
+    },
+    "fourC": {
+        "algorithm": "U' M2 U2",
+        "extraText": ""
+    },
+    "state": [
+        {
+            "left": "red",
+            "right": "black",
+            "top": "white",
+            "bottom": "black",
+            "front": "blue",
+            "back": "black"
+        },
+        {
+            "left": "orange",
+            "right": "black",
+            "top": "blue",
+            "bottom": "black",
+            "front": "black",
+            "back": "black"
+        },
+        {
+            "left": "red",
+            "right": "black",
+            "top": "white",
+            "bottom": "black",
+            "front": "black",
+            "back": "green"
+        },
+        {
+            "left": "white",
+            "right": "black",
+            "top": "black",
+            "bottom": "black",
+            "front": "blue",
+            "back": "black"
+        },
+        {
+            "left": "orange",
+            "right": "black",
+            "top": "black",
+            "bottom": "black",
+            "front": "black",
+            "back": "black"
+        },
+        {
+            "left": "red",
+            "right": "black",
+            "top": "black",
+            "bottom": "black",
+            "front": "black",
+            "back": "green"
+        },
+        {
+            "left": "yellow",
+            "right": "black",
+            "top": "black",
+            "bottom": "orange",
+            "front": "blue",
+            "back": "black"
+        },
+        {
+            "left": "red",
+            "right": "black",
+            "top": "black",
+            "bottom": "yellow",
+            "front": "black",
+            "back": "black"
+        },
+        {
+            "left": "blue",
+            "right": "black",
+            "top": "black",
+            "bottom": "white",
+            "front": "black",
+            "back": "orange"
+        },
+        {
+            "left": "black",
+            "right": "black",
+            "top": "red",
+            "bottom": "black",
+            "front": "white",
+            "back": "black"
+        },
+        {
+            "left": "black",
+            "right": "black",
+            "top": "white",
+            "bottom": "black",
+            "front": "black",
+            "back": "black"
+        },
+        {
+            "left": "black",
+            "right": "black",
+            "top": "blue",
+            "bottom": "black",
+            "front": "black",
+            "back": "yellow"
+        },
+        {
+            "left": "black",
+            "right": "black",
+            "top": "black",
+            "bottom": "black",
+            "front": "green",
+            "back": "black"
+        },
+        {
+            "left": "black",
+            "right": "black",
+            "top": "black",
+            "bottom": "black",
+            "front": "black",
+            "back": "blue"
+        },
+        {
+            "left": "black",
+            "right": "black",
+            "top": "black",
+            "bottom": "blue",
+            "front": "red",
+            "back": "black"
+        },
+        {
+            "left": "black",
+            "right": "black",
+            "top": "black",
+            "bottom": "yellow",
+            "front": "black",
+            "back": "black"
+        },
+        {
+            "left": "black",
+            "right": "black",
+            "top": "black",
+            "bottom": "yellow",
+            "front": "black",
+            "back": "green"
+        },
+        {
+            "left": "black",
+            "right": "yellow",
+            "top": "red",
+            "bottom": "black",
+            "front": "green",
+            "back": "black"
+        },
+        {
+            "left": "black",
+            "right": "yellow",
+            "top": "orange",
+            "bottom": "black",
+            "front": "black",
+            "back": "black"
+        },
+        {
+            "left": "black",
+            "right": "green",
+            "top": "yellow",
+            "bottom": "black",
+            "front": "black",
+            "back": "orange"
+        },
+        {
+            "left": "black",
+            "right": "orange",
+            "top": "black",
+            "bottom": "black",
+            "front": "green",
+            "back": "black"
+        },
+        {
+            "left": "black",
+            "right": "red",
+            "top": "black",
+            "bottom": "black",
+            "front": "black",
+            "back": "black"
+        },
+        {
+            "left": "black",
+            "right": "white",
+            "top": "black",
+            "bottom": "black",
+            "front": "black",
+            "back": "orange"
+        },
+        {
+            "left": "black",
+            "right": "green",
+            "top": "black",
+            "bottom": "orange",
+            "front": "white",
+            "back": "black"
+        },
+        {
+            "left": "black",
+            "right": "white",
+            "top": "black",
+            "bottom": "green",
+            "front": "black",
+            "back": "black"
+        },
+        {
+            "left": "black",
+            "right": "red",
+            "top": "black",
+            "bottom": "yellow",
+            "front": "black",
+            "back": "blue"
+        }
+    ]
+}

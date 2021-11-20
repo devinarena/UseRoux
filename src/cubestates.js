@@ -9,7 +9,7 @@
     }
 */
 
-import * as states from './cubestate/cubestate.config';
+import * as cubestates from './cubestate/cubestate.config';
 
 /**
  * @file: cubestate.js
@@ -28,7 +28,7 @@ const scrambleSelector = document.getElementById("scrambleChoice");
  */
 const init = () => {
     // add an option for all imported states
-    for (const scramble of Object.keys(states)) {
+    for (const scramble of Object.keys(cubestates)) {
         scrambleSelector.innerHTML += "<option value=" + scramble + ">" + scramble + "</option>\n";
     }
 }
@@ -70,4 +70,4 @@ const updateDialogs = (state) => {
     }
 }
 
-export { init, updateCube, updateDialogs, states, solveStages, currentState, scrambleSelector };
+export { init, updateCube, updateDialogs, cubestates, solveStages, currentState, scrambleSelector };

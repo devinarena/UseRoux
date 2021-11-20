@@ -6,7 +6,7 @@
  *              HTML elements and handles animations.
  */
 
-import { states, updateDialogs, solveStages, currentState, scrambleSelector } from "./cubestates";
+import { cubestates, updateDialogs, solveStages, currentState, scrambleSelector } from "./cubestates";
 
 const dialogContainer = document.getElementsByClassName("guide-container")[0];
 const dialogs = dialogContainer.getElementsByClassName("guide-dialog");
@@ -35,7 +35,7 @@ const nextPage = (cube) => {
             }, 1000);
         } else if (currPage - 1 === i) {
             if (dialogs[i].className.split(" ")[1] === "menu") {
-                updateDialogs(states[scrambleSelector.value]);
+                updateDialogs(cubestates[scrambleSelector.value]);
                 cube.queueMoves(currentState["scramble"]);
             }
             dialogs[i].style.opacity = 0;

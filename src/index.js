@@ -51,7 +51,7 @@ const init = () => {
     cube.setupCube(pivot);
 
     // update the state to start as scrambled
-    state.updateCube(cube, state.states.solved);
+    state.updateCube(cube, state.cubestates.solved);
 
     // Init UI navigation, cube is solved too so we need access to the cube
     setupUINavigation(cube);
