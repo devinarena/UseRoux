@@ -1,0 +1,12 @@
+.Login form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.Login form label {
+    display: flex;
+    justify-content: space-between;
+    margin: 1% 0;
+}

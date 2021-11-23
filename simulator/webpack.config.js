@@ -6,7 +6,7 @@ const isProduction = process.env.NODE_ENV == 'production';
 const config = {
     entry: './src/index.js',
     output: {
-        path: path.resolve(__dirname, 'useroux/public/simulator'),
+        path: path.resolve(__dirname, '../useroux/public/simulator'),
     },
     plugins: [
         new HtmlWebpackPlugin({
