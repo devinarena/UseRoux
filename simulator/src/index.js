@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Cube from './cube';
-import * as state from './cubestates';
+import * as state from './database';
 import { setupUINavigation } from './statehandler';
 
 // Cube-X
@@ -17,6 +17,7 @@ import { setupUINavigation } from './statehandler';
 // initialize camera and scene
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+const clock = new THREE.Clock();
 
 let cube;
 
@@ -29,7 +30,7 @@ const controls = new OrbitControls(camera, renderer.domElement);
 
 const threeContainer = document.body.getElementsByClassName("three-container")[0];
 
-const init = () => {
+const init = async () => {
     // add the cube pivot to the scene
     scene.add(pivot);
 
@@ -44,14 +45,13 @@ const init = () => {
 
     updateCanvasSize(true);
 
-    state.init();
-
     // initialize the starting cube by creating 27 cubies
     cube = new Cube();
     cube.setupCube(pivot);
 
-    // update the state to start as scrambled
-    state.updateCube(cube, state.cubestates.solved);
+    state.loadSolvedState(cube);
+
+    await state.init();
 
     // Init UI navigation, cube is solved too so we need access to the cube
     setupUINavigation(cube);
@@ -65,7 +65,7 @@ const animate = () => {
     updateCanvasSize(false);
 
     controls.update();
-    cube.update(pivot);
+    cube.update(pivot, clock.getDelta());
     // pivot.rotateY(0.005);
 
     renderer.render(scene, camera);
@@ -126,7 +126,7 @@ document.addEventListener("keypress", evt => {
 /**
  * When the window first loads, begin animating the scene.
  */
-window.onload = () => {
-    init();
+window.onload = async () => {
+    await init();
     animate();
 }

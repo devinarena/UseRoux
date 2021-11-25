@@ -7,42 +7,48 @@ function Cube() {
     this.moves = [];
     this.rotationDirection = '';
     this.rotationInverted = 1;
-    this.rotationState = 0;
+    this.rotatedAmount = 0;
     this.rotateGroup = new Group();
-    this.rotationDelay = 32;
+    this.rotationSpeed = 2;
     this.faceColors = {};
 
     /**
      * Updates the cube by rotating it if necessary.
      * 
      * @param {Group} pivot to contain the cubies. 
+     * @param {number} delta delta time, to keep movement real-time.
      */
-    this.update = (pivot) => {
+    this.update = (pivot, delta) => {
         if (this.rotateGroup.children.length > 0) {
             // Rotate on the proper axis for each type of move
             if (this.rotationDirection == 'l' || this.rotationDirection == 'm')
-                this.rotateGroup.rotateX(Math.PI / this.rotationDelay * this.rotationInverted);
+                this.rotateGroup.rotateX(Math.PI * this.rotationSpeed * this.rotationInverted * delta);
             if (this.rotationDirection == 'r' || this.rotationDirection == 'x')
-                this.rotateGroup.rotateX(-Math.PI / this.rotationDelay * this.rotationInverted);
+                this.rotateGroup.rotateX(-Math.PI * this.rotationSpeed * this.rotationInverted * delta);
             if (this.rotationDirection == 'u' || this.rotationDirection == 'y')
-                this.rotateGroup.rotateY(-Math.PI / this.rotationDelay * this.rotationInverted);
+                this.rotateGroup.rotateY(-Math.PI * this.rotationSpeed * this.rotationInverted * delta);
             if (this.rotationDirection == 'd')
-                this.rotateGroup.rotateY(Math.PI / this.rotationDelay * this.rotationInverted);
+                this.rotateGroup.rotateY(Math.PI * this.rotationSpeed * this.rotationInverted * delta);
             if (this.rotationDirection == 'f' || this.rotationDirection == 'z')
-                this.rotateGroup.rotateZ(-Math.PI / this.rotationDelay * this.rotationInverted);
+                this.rotateGroup.rotateZ(-Math.PI * this.rotationSpeed * this.rotationInverted * delta);
             if (this.rotationDirection == 'b')
-                this.rotateGroup.rotateZ(Math.PI / this.rotationDelay * this.rotationInverted);
-            // we rotate incrementally for an animation
-            this.rotationState++;
+                this.rotateGroup.rotateZ(Math.PI * this.rotationSpeed * this.rotationInverted * delta);
+            this.rotatedAmount += Math.PI * this.rotationSpeed * delta;
             // if we've hit the proper rotation (90 degrees)
-            if (this.rotationState == this.rotationDelay / 2) {
+            if (this.rotatedAmount >= Math.PI / 2) {
+                // clamp rotation values to nearest 90 degree
+                let x = Math.round(this.rotateGroup.rotation.x / (Math.PI / 2)) * (Math.PI / 2);
+                let y = Math.round(this.rotateGroup.rotation.y / (Math.PI / 2)) * (Math.PI / 2);
+                let z = Math.round(this.rotateGroup.rotation.z / (Math.PI / 2)) * (Math.PI / 2);
+                this.rotateGroup.rotation.set(x, y, z);
                 // remove the rotate group so we can add the cubies back to the pivot
                 pivot.remove(this.rotateGroup);
                 let cubies = [];
                 // grab each cubie from the rotation group
                 this.rotateGroup.traverse(cubie => {
-                    if (cubie instanceof Mesh)
+                    if (cubie instanceof Mesh) {
                         cubies.push(cubie);
+                    }
                 });
                 // re-add the cubie to the pivot
                 cubies.forEach(cubie => {
@@ -50,6 +56,7 @@ function Cube() {
                 });
                 // reset the rotation group for the next move
                 this.rotateGroup.rotation.set(0, 0, 0);
+                this.rotateGroup.clear();
             }
         } else {
             // if we have moves in the moves queue
@@ -152,48 +159,54 @@ function Cube() {
             return false;
         this.rotationDirection = direction;
         this.rotationInverted = inverted ? -1 : 1;
-        this.rotationState = 0;
+        this.rotatedAmount = 0;
         // this just adds the proper cubies to the rotation group depending on the move
         if (this.rotationDirection === 'l') {
             this.cube.forEach(cubie => {
-                if (cubie.getCube().position.x <= -1.05) {
+                if (cubie.getCube().position.x <= -1.03) {
                     cubie.rotate('x', !inverted);
                     this.rotateGroup.add(cubie.getCube());
+                    pivot.remove(cubie.getCube());
                 }
             });
         } else if (this.rotationDirection === 'r') {
             this.cube.forEach(cubie => {
-                if (cubie.getCube().position.x >= 1.05) {
+                if (cubie.getCube().position.x >= 1.03) {
                     cubie.rotate('x', inverted);
                     this.rotateGroup.add(cubie.getCube());
+                    pivot.remove(cubie.getCube());
                 }
             });
         } else if (this.rotationDirection === 'u') {
             this.cube.forEach(cubie => {
-                if (cubie.getCube().position.y >= 1.05) {
+                if (cubie.getCube().position.y >= 1.03) {
                     cubie.rotate('y', !inverted);
                     this.rotateGroup.add(cubie.getCube());
+                    pivot.remove(cubie.getCube());
                 }
             });
         } else if (this.rotationDirection === 'd') {
             this.cube.forEach(cubie => {
-                if (cubie.getCube().position.y <= -1.05) {
+                if (cubie.getCube().position.y <= -1.03) {
                     cubie.rotate('y', inverted);
                     this.rotateGroup.add(cubie.getCube());
+                    pivot.remove(cubie.getCube());
                 }
             });
         } else if (this.rotationDirection === 'f') {
             this.cube.forEach(cubie => {
-                if (cubie.getCube().position.z >= 1.05) {
+                if (cubie.getCube().position.z >= 1.03) {
                     cubie.rotate('z', !inverted);
                     this.rotateGroup.add(cubie.getCube());
+                    pivot.remove(cubie.getCube());
                 }
             });
         } else if (this.rotationDirection === 'b') {
             this.cube.forEach(cubie => {
-                if (cubie.getCube().position.z <= -1.05) {
+                if (cubie.getCube().position.z <= -1.03) {
                     cubie.rotate('z', inverted);
                     this.rotateGroup.add(cubie.getCube());
+                    pivot.remove(cubie.getCube());
                 }
             });
         } else if (this.rotationDirection === 'm') {
@@ -201,6 +214,7 @@ function Cube() {
                 if (cubie.getCube().position.x > -1 && cubie.getCube().position.x < 1) {
                     cubie.rotate('x', !inverted);
                     this.rotateGroup.add(cubie.getCube());
+                    pivot.remove(cubie.getCube());
                 }
             });
         }
@@ -209,16 +223,19 @@ function Cube() {
             this.cube.forEach(cubie => {
                 cubie.rotate('x', inverted);
                 this.rotateGroup.add(cubie.getCube());
+                pivot.remove(cubie.getCube());
             });
         } else if (this.rotationDirection === 'y') {
             this.cube.forEach(cubie => {
                 cubie.rotate('y', !inverted);
                 this.rotateGroup.add(cubie.getCube());
+                pivot.remove(cubie.getCube());
             });
         } else if (this.rotationDirection === 'z') {
             this.cube.forEach(cubie => {
                 cubie.rotate('z', !inverted);
                 this.rotateGroup.add(cubie.getCube());
+                pivot.remove(cubie.getCube());
             });
         }
         pivot.add(this.rotateGroup);

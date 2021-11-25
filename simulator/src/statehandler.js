@@ -6,7 +6,7 @@
  *              HTML elements and handles animations.
  */
 
-import { cubestates, updateDialogs, solveStages, currentState, scrambleSelector } from "./cubestates";
+import { solutionData, steps } from "./database";
 
 const dialogContainer = document.getElementsByClassName("guide-container")[0];
 const dialogs = dialogContainer.getElementsByClassName("guide-dialog");
@@ -22,37 +22,25 @@ const nextPage = (cube) => {
     // if we're at the last page or the cube is currently rotating, we can't change the page
     if (currPage === dialogs.length - 1 || cube.inProgress())
         return;
-    if (currPage > 0 && currentState.scramble.length === 0)
-        return;
     // move to the next page
     currPage++;
-    for (let i = 0; i < dialogs.length; i++) {
-        // shows the current dialog and hides the previous by appending to the class name
-        if (currPage === i) {
-            setTimeout(() => {
-                dialogs[i].className = dialogs[i].className.substring(0, dialogs[i].className.length - 7);
-                dialogs[i].style.opacity = 1;
-            }, 1000);
-        } else if (currPage - 1 === i) {
-            if (dialogs[i].className.split(" ")[1] === "menu") {
-                updateDialogs(cubestates[scrambleSelector.value]);
-                cube.queueMoves(currentState["scramble"]);
-            }
-            dialogs[i].style.opacity = 0;
-            setTimeout(() => {
-                dialogs[i].className += " hidden";
-            }, 1000);
-        }
+    setTimeout(() => {
+        dialogs[currPage].className = dialogs[currPage].className.substring(0, dialogs[currPage].className.length - 7);
+        dialogs[currPage].style.opacity = 1;
+    }, 1000);
+    if (dialogs[currPage].className.split(" ")[1] === "scramble") {
+        cube.queueMoves(solutionData.scramble);
     }
-    // queue moves to get into this state
-    if (currentState.hasOwnProperty(dialogs[currPage].className.split(" ")[1])) {
-        if (solveStages.includes(dialogs[currPage].className.split(" ")[1])) {
-            let algorithm = currentState[dialogs[currPage].className.split(" ")[1]]["algorithm"];
-            for (let element of dialogs[currPage].getElementsByClassName("algorithm")) {
-                element.innerHTML = algorithm;
-            }
-            cube.queueMoves(algorithm);
-        }
+    dialogs[currPage - 1].style.opacity = 0;
+    setTimeout(() => {
+        dialogs[currPage - 1].className += " hidden";
+    }, 1000);
+
+    // Grab the step from the classname and queue the moves associated with that step
+    let className = dialogs[currPage].className;
+    if (className.includes(" ") && className.split(" ").length > 0 && className.split(" ")[1].includes("step")) {
+        let step = className.split(" ")[1].replace("step", "");
+        cube.queueMoves(steps[step].algorithm);
     }
 }
 
@@ -67,31 +55,33 @@ const prevPage = (cube) => {
         return;
     // moves to the previous page
     currPage--;
-    for (let i = 0; i < dialogs.length; i++) {
-        // shows the current dialog and hides the previous by appending to the class name
-        if (currPage === i) {
-            setTimeout(() => {
-                dialogs[i].className = dialogs[i].className.substring(0, dialogs[i].className.length - 7);
-                dialogs[i].style.opacity = 1;
-            }, 1000);
-        } else if (currPage + 1 === i) {
-            dialogs[i].style.opacity = 0;
-            setTimeout(() => {
-                dialogs[i].className += " hidden";
-            }, 1000);
-        }
+    setTimeout(() => {
+        dialogs[currPage].className = dialogs[currPage].className.substring(0, dialogs[currPage].className.length - 7);
+        dialogs[currPage].style.opacity = 1;
+    }, 1000);
+    dialogs[currPage + 1].style.opacity = 0;
+    setTimeout(() => {
+        dialogs[currPage + 1].className += " hidden";
+    }, 1000);
+
+    // Grab the step from the classname and queue the moves associated with that step
+    let className = dialogs[currPage + 1].className;
+    if (className.includes(" ") && className.split(" ").length > 0 && className.split(" ")[1].includes("step")) {
+        let step = className.split(" ")[1].replace("step", "");
+        cube.queueMovesReversed(steps[step].algorithm);
     }
-    // queue reversed moves to get back into this state
-    if (solveStages.includes(dialogs[currPage + 1].className.split(" ")[1]))
-        cube.queueMovesReversed(currentState[dialogs[currPage + 1].className.split(" ")[1]]["algorithm"]);
 }
 
 /**
  * Sets up navigation elements with their respective event listeners.
  */
 const setupUINavigation = (cube) => {
-    document.getElementById("nextButton").onclick = () => nextPage(cube);
-    document.getElementById("prevButton").onclick = () => prevPage(cube);
+    const nb = document.getElementById("nextButton");
+    const pb = document.getElementById("prevButton");
+    if (!nb || !pb)
+        return;
+    nb.onclick = () => nextPage(cube);
+    pb.onclick = () => prevPage(cube);
     for (let i = 1; i < dialogs.length; i++)
         dialogs[i].style.opacity = 0;
 }

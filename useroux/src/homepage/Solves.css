@@ -1,0 +1,71 @@
+.Solves {
+    width: 50%;
+    margin-left: 25%;
+    min-height: 100%;
+    color: var(--text-color);
+}
+
+.Solves h1 {
+    text-align: center;
+    font-size: 3rem;
+    font-size: 3vw;
+}
+
+.Solves h3 {
+    text-align: center;
+    font-size: 1rem;
+    font-size: 1vw;
+}
+
+.SolveList ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+.SolveList ul li {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--container-background);
+    padding: 1% 2%;
+    margin: 1% 0;
+    border-radius: 20px;
+}
+
+.SolveData h1 {
+    font-size: 1.5rem;
+    font-size: 1.5vw;
+    line-height: 20%;
+}
+
+.SolveData h3 {
+    font-weight: normal;
+    font-size: 1.25rem;
+    font-size: 1.25vw;
+    line-height: 20%;
+}
+
+.SolveData .Date {
+    font-style: italic;
+}
+
+.SolveList ul li a {
+    text-decoration: none;
+    color: var(--text-color);
+    background-color: var(--solve-button-color);
+    font-weight: bold;
+    font-size: 1vw;
+    padding: 2%;
+    border-radius: 20px;
+    transition: background-color 1s ease;
+    -webkit-transition: background-color 1s ease;
+    -moz-transition: background-color 1s ease;
+}
+
+.SolveList ul li a:hover {
+    background-color: var(--solve-button-hover);
+}

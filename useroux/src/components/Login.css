@@ -6,7 +6,12 @@
 }
 
 .Login form label {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     margin: 1% 0;
+}
+
+.HomePage {
+    background-color: #fff !important;
 }

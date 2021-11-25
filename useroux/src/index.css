@@ -1,3 +1,11 @@
+* {
+  --text-color: #fff;
+  --background-color: #000;
+  --container-background: #333;
+  --solve-button-color: #2b778f;
+  --solve-button-hover: #3bacce;
+}
+
 body {
   margin: 0;
   font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

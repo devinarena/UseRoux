@@ -16,7 +16,7 @@ const Login = () => {
             password: password
         }).then((response) => {
             if (response.data.err)
-                setLoginInformation(response.data.err);
+                setLoginInformation(response.data.err.code);
             else
                 setLoginInformation("Successful login as " + response.data[0].username);
         });

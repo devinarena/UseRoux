@@ -1,12 +1,16 @@
 * {
     margin: 0;
     padding: 0;
+    --background-color: #000;
+    --text-color: #fff;
+    --container-background: #333;
+    --button-hover: #666;
 }
 
 body {
     width: 100vw;
     height: 100vh;
-    background: #000;
+    background: var(--background-color);
     font-family: 'Open Sans', Arial, sans-serif;
     display: flex;
     flex-direction: row;
@@ -41,8 +45,8 @@ canvas {
     margin: 5%;
     border-radius: 20px;
     display: flex;
-    background: rgba(33, 33, 33, 0.8);
-    color: #fff;
+    background: var(--container-background);
+    color: var(--text-color);
     flex-direction: column;
     transition: opacity 1s ease, visibility 1s ease;
     -moz-transition: opacity 1s ease, visibility 1s ease;
@@ -52,6 +56,20 @@ canvas {
 .guide-dialog h1 {
     text-align: center;
     font-size: 2vw;
+}
+
+.guide-dialog h2 {
+    text-align: center;
+    font-size: 1.5vw;
+}
+
+.guide-dialog h3 {
+    text-align: center;
+    font-size: 1.25vw;
+}
+
+.italic {
+    font-style: italic;
 }
 
 .guide-dialog p {
@@ -89,7 +107,7 @@ canvas {
 
 .guide-buttons button {
     border: none;
-    background: #333;
+    background: var(--container-background);
     margin: 0 2%;
     font-size: 2vw;
     padding: 2.5% 6% 3% 5%;
@@ -102,29 +120,9 @@ canvas {
 }
 
 .guide-buttons button:hover {
-    background: #666;
+    background: var(--button-hover);
 }
 
 .algorithm {
     text-align: center;
-}
-
-#scrambleChoice {
-    margin: 5% 0;
-    font-size: 2vw;
-    font-weight: bold;
-    text-align: center;
-    color: #fff;
-    background: black;
-    border: 3px solid white;
-    border-radius: 10px;
-    transition: background 1s ease, border 1s ease;
-    -moz-transition: background 1s ease, border 1s ease;
-    -webkit-transition: background 1s ease, border 1s ease;
-}
-
-#scrambleChoice:focus {
-    outline: none;
-    background: #111;
-    border: 3px solid #999;
 }

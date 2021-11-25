@@ -1,12 +1,20 @@
-import './App.css';
-import Login from './components/Login';
+import HomePage from './homepage/HomePage';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+/**
+ * @file App.js
+ * @author Devin Arena
+ * @since 11/24/2021
+ * @description Main application file which handles routing for the site.
+ */
 
 const App = () => {
   return (
-    <div className="App">
-      <h1>UseRoux</h1>
-      <Login />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+      </Routes>
+    </Router>
   );
 }
 
