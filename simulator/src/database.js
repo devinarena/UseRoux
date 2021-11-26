@@ -19,6 +19,9 @@
 import Axios from 'axios';
 import solved from './cubestate/solved.json';
 
+const development = true;
+const connectURL = development ? "http://localhost:5000" : "http://73.156.33.157:5000";
+
 const dialogs = document.getElementsByClassName('guide-container')[0];
 
 let solveID = 0;
@@ -44,7 +47,7 @@ const init = async () => {
         return;
     }
 
-    await Axios.get('http://localhost:5000/getsolve', {
+    await Axios.get(connectURL + '/solve', {
         params: {
             solveID: solveID
         }
@@ -55,11 +58,19 @@ const init = async () => {
         solutionData = response.data[0];
     });
 
-    await Axios.get("http://localhost:5000/getsteps", {
+    await Axios.get(connectURL + '/solve/steps', {
         params: {
             solveID: solveID
         }
     }).then((response) => {
+        if (response.data.err) {
+            steps[0] = {
+                name: response.data.err,
+                text: "",
+                algorithm: "",
+            };
+            return;
+        }
         for (const step of response.data) {
             steps[step.step_number] = {
                 name: step.name,

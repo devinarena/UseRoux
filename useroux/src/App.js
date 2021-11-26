@@ -1,5 +1,6 @@
 import HomePage from './homepage/HomePage';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import UploadSolve from './components/UploadSolve';
 
 /**
  * @file App.js
@@ -13,6 +14,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/upload" element={<UploadSolve />} />
       </Routes>
     </Router>
   );

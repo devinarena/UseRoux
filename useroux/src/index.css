@@ -2,8 +2,10 @@
   --text-color: #fff;
   --background-color: #000;
   --container-background: #333;
-  --solve-button-color: #2b778f;
-  --solve-button-hover: #3bacce;
+  --button-color: #2b778f;
+  --button-hover: #3bacce;
+  --remove-button-color: #ac0e0e;
+  --remove-button-hover: #e61818;
 }
 
 body {
