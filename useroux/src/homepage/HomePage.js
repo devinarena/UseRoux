@@ -1,6 +1,6 @@
 
 import './HomePage.css';
-import Landing from './Landing';
+import Landing from './landing/Landing';
 import Solves from './Solves';
 
 /**
@@ -22,8 +22,10 @@ const HomePage = (props) => {
 
     return (
         <div className="HomePage">
-            <Landing />
-            <Solves />
+            <div className="Wrapper">
+                <Landing />
+                <Solves />
+            </div>
         </div>
     );
 }

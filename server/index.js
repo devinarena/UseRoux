@@ -1,8 +1,11 @@
-const { dbUsername, dbPassword } = require('./private');
+const { dbUsername, dbPassword, jwtSecret } = require('./private');
 
 const mysql = require('mysql');
 const express = require('express');
+const jwt = require('express-jwt');
+const jsonwebtoken = require("jsonwebtoken");
 const cors = require('cors');
+const cookie = require("cookie-parser");
 
 /**
  * Creates a mysql connection object and connects to the useroux database.
@@ -18,10 +21,32 @@ const connection = mysql.createConnection({
  * 
  */
 var app = express();
+app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use(express.json());
-app.use(cors());
+app.use(cookie());
 
-app.post('/user/login', (request, response) => {
+const authenticated = (req, res, next) => {
+    const token = req.cookies.access_token;
+
+    if (token) {
+        jsonwebtoken.verify(token, jwtSecret, (err, decoded) => {
+            if (err)
+                return res.status(401).send({
+                    success: false,
+                    message: "You must be authenticated to do that."
+                });
+            req.username = decoded.username;
+            return next();
+        });
+    } else {
+        return res.status(401).send({
+            success: false,
+            message: "You must be authenticated to do that."
+        });
+    }
+}
+
+const login = (request, response) => {
     const email = request.body.email;
     const password = request.body.password;
 
@@ -31,16 +56,28 @@ app.post('/user/login', (request, response) => {
                 response.send({ err: error });
             } else {
                 if (result.length > 0) {
-                    response.send(result);
+                    const accessToken = jsonwebtoken.sign(
+                        {
+                            id: result[0].id,
+                            username: result[0].username,
+                        },
+                        jwtSecret);
+
+                    response.cookie("access_token", accessToken, { httpOnly: true });
+                    response.send({ token: accessToken });
                 } else {
                     response.send({ err: "Invalid email and password combination." })
                 }
             }
         });
     }
-});
+};
 
-app.get('/solve', (request, response) => {
+const logout = (request, response) => {
+    return response.clearCookie("access_token").status(200).json({ message: "You have logged out." })
+}
+
+const getSolve = (request, response) => {
     const solveID = request.query.solveID;
 
     if (solveID) {
@@ -56,9 +93,9 @@ app.get('/solve', (request, response) => {
             }
         });
     }
-});
+};
 
-app.get('/solve/steps', (request, response) => {
+const getSolveSteps = (request, response) => {
     const solveID = request.query.solveID;
 
     if (solveID) {
@@ -74,9 +111,9 @@ app.get('/solve/steps', (request, response) => {
             }
         });
     }
-});
+};
 
-app.get('/solve/solves', (request, response) => {
+const getSolves = (request, response) => {
     const count = parseInt(request.query.count);
 
     if (count) {
@@ -92,9 +129,9 @@ app.get('/solve/solves', (request, response) => {
             }
         });
     }
-});
+};
 
-app.post('/solve/upload', (request, response) => {
+const uploadSolve = (request, response) => {
     const title = request.body.title;
     const desc = request.body.desc ? request.body.desc : "";
     const scramble = request.body.scramble;
@@ -123,9 +160,9 @@ app.post('/solve/upload', (request, response) => {
             }
         });
     }
-});
+};
 
-app.post('/solve/upload/steps', (request, response) => {
+const uploadSteps = (request, response) => {
     const values = [];
     for (const step of request.body.steps) {
         const name = step.name;
@@ -151,7 +188,21 @@ app.post('/solve/upload/steps', (request, response) => {
             response.send({ id: result.insertId });
         }
     });
-});
+};
+
+const userData = (request, response) => {
+    return response.json({ id: request.id, username: request.username });
+}
+
+app.get('/solve', getSolve);
+app.get('/solve/steps', getSolveSteps);
+app.get('/solve/solves', getSolves);
+app.post('/user/login', login);
+
+app.get('/user/info', authenticated, userData);
+app.get('/user/logout', authenticated, logout);
+app.post('/solve/upload', authenticated, uploadSolve);
+app.post('/solve/upload/steps', authenticated, uploadSteps);
 
 console.log("Listening on port 5000");
 

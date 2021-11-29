@@ -1,4 +1,5 @@
 
+import AccountInfo from './AccountInfo';
 import './Landing.css';
 
 /**
@@ -22,6 +23,7 @@ const Landing = (props) => {
                 <h1>ExampleSolves</h1>
                 <h3>Share your solves with the world and learn from others.</h3>
             </div>
+            <AccountInfo />
             <div className="NewsDialog">
                 <h1>Working on the project.</h1>
                 <h3 className="Date">11/24/2021</h3>

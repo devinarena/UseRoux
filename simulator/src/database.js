@@ -19,7 +19,7 @@
 import Axios from 'axios';
 import solved from './cubestate/solved.json';
 
-const development = true;
+const development = false;
 const connectURL = development ? "http://localhost:5000" : "http://73.156.33.157:5000";
 
 const dialogs = document.getElementsByClassName('guide-container')[0];

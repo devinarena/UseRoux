@@ -1,6 +1,8 @@
 import HomePage from './homepage/HomePage';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import UploadSolve from './components/UploadSolve';
+import Login from './components/Login';
+import Logout from './components/Logout';
 
 /**
  * @file App.js
@@ -15,6 +17,8 @@ const App = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/upload" element={<UploadSolve />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/logout" element={<Logout />} />
       </Routes>
     </Router>
   );

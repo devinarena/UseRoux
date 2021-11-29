@@ -1,5 +1,6 @@
 
 import { useEffect, useState } from 'react';
+import { databaseURL } from '../Database';
 import Axios from 'axios';
 import './Solves.css';
 
@@ -30,7 +31,7 @@ const Solves = (props) => {
      * Queries the MySQL server for a list of solves to be displayed.
      */
     const getSolves = async () => {
-        Axios.get('http://localhost:5000/solve/solves', {
+        Axios.get(databaseURL + 'solve/solves', {
             params: {
                 count: 50,
             }
@@ -48,8 +49,10 @@ const Solves = (props) => {
 
     return (
         <div className="Solves">
-            <h1>Solves</h1>
-            <h3>Click on a solve to view it, click 'view' to open it in the simulator.</h3>
+            <div className="SolveHeader">
+                <h1>Solves</h1>
+                <h3>Click on a solve to view it, click 'view' to open it in the simulator.</h3>
+            </div>
             <div className="SolveList">
                 {errorMessage.length > 0 && <h1>{errorMessage}</h1>}
                 <ul>

@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import './UploadSolve.css';
 import Axios from 'axios';
+import { databaseURL } from '../Database';
 
 /**
 * @file UploadSolve.js
@@ -40,11 +41,11 @@ const UploadSolve = (props) => {
             return (
                 <form>
                     <label>Title *</label>
-                    <input type="text" value={title} maxLength={255} onChange={e => setTitle(e.target.value)} />
+                    <input type="text" value={title} maxLength={255} onChange={e => setTitle(e.target.value)} required />
                     <label>Description *</label>
-                    <textarea rows={10} value={desc} maxLength={5000} onChange={e => setDesc(e.target.value)} />
+                    <textarea rows={10} value={desc} maxLength={5000} onChange={e => setDesc(e.target.value)} required />
                     <label>Scramble *</label>
-                    <input type="text" value={scramble} maxLength={255} onChange={e => setScramble(e.target.value)} />
+                    <input type="text" value={scramble} maxLength={255} onChange={e => setScramble(e.target.value)} required />
                     <label>Time</label>
                     <input type="number" value={time > 0 ? time : ""} maxLength={18} onChange={e => setTime(e.target.value)} />
                     <button type="button" onClick={() => setPage(1)}>Steps</button>
@@ -70,7 +71,7 @@ const UploadSolve = (props) => {
                                         } else
                                             return step;
                                     }))
-                                } />
+                                } required />
                                 <label>Algorithm *</label>
                                 <input value={step.algorithm} type="text" maxLength={255} onChange={
                                     e => setSteps(steps.map((step, cidx) => {
@@ -83,7 +84,7 @@ const UploadSolve = (props) => {
                                         } else
                                             return step;
                                     }))
-                                } />
+                                } required />
                                 <label>Description</label>
                                 <textarea value={step.text} rows={5} maxLength={5000} onChange={
                                     e => setSteps(steps.map((step, cidx) => {
@@ -141,7 +142,7 @@ const UploadSolve = (props) => {
             time: time,
         };
 
-        Axios.post("http://localhost:5000/solve/upload", solveData).then((response) => {
+        Axios.post(databaseURL + "solve/upload", solveData).then((response) => {
             if (response.data.err) {
                 console.log(response.data.err);
             } else {
@@ -152,7 +153,7 @@ const UploadSolve = (props) => {
                     step.stepNumber = stepNum++;
                 }
                 console.log(steps);
-                Axios.post("http://localhost:5000/solve/upload/steps", { steps: steps }).then((response) => {
+                Axios.post(databaseURL + "solve/upload/steps", { steps: steps }).then((response) => {
                     console.log(response);
                 });
             }

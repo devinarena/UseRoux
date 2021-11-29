@@ -73,17 +73,17 @@
     background-color: var(--button-hover);
 }
 
-/* Chrome, Safari, Edge, Opera */
 .UploadSolve form input::-webkit-outer-spin-button,
 .UploadSolve form input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-/* Firefox */
 .UploadSolve form input[type=number] {
     -moz-appearance: textfield;
 }
+
+/* REMOVE IMPORTANT EVENTUALLY */
 
 .AddStep, .RemoveStep {
     padding: 2% 3% !important;
