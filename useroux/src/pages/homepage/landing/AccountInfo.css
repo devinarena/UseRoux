@@ -28,6 +28,7 @@
     color: var(--text-color);
     background-color: var(--button-color);
     font-weight: bold;
+    font-size: 1rem;
     font-size: 1vw;
     margin: 1%;
     padding: 2%;
@@ -41,4 +42,19 @@
 
 .HomePage .AccountContainer .AccountButtons a:hover, .HomePage .AccountContainer .AccountButtons button:hover {
     background-color: var(--button-hover);
+}
+
+.HomePage .AccountContainer .ForgotPassword {
+    margin-top: 1%;
+    text-decoration: none;
+    font-size: 1rem;
+    font-size: 1vw;
+    color: var(--button-color);
+    transition: color 1s ease;
+    -webkit-transition: color 1s ease;
+    -moz-transition: color 1s ease;
+}
+
+.HomePage .AccountContainer .ForgotPassword:hover {
+    color: var(--button-hover);
 }

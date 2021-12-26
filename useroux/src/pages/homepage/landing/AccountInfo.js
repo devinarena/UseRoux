@@ -10,7 +10,7 @@ import './AccountInfo.css';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Axios from 'axios';
-import { databaseURL } from '../../Database';
+import { databaseURL } from '../../../Database';
 
 const AccountInfo = (props) => {
 
@@ -21,8 +21,9 @@ const AccountInfo = (props) => {
      */
     const getUserData = () => {
         Axios.get(databaseURL + 'user/info', { withCredentials: true }).then(response => {
-            setUserData(response.data);
-        }).catch(error => {
+            if (response.data)
+                setUserData(response.data);
+        }).catch(_error => {
         });
     }
 
@@ -38,6 +39,7 @@ const AccountInfo = (props) => {
                     <Link to="/login">Login</Link>
                     <Link to="/signup">Sign Up</Link>
                 </div>
+                <a className="ForgotPassword" href="/">Forgot Password</a>
             </div>
         );
     } else {
@@ -47,6 +49,7 @@ const AccountInfo = (props) => {
                 <div className="AccountButtons">
                     <Link to="/upload">Upload Solve</Link>
                     <Link to="/logout">Logout</Link>
+                    <Link to="/">Preferences</Link>
                 </div>
             </div>
         );

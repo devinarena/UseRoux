@@ -1,8 +1,9 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './UploadSolve.css';
 import Axios from 'axios';
 import { databaseURL } from '../Database';
+import { useNavigate } from 'react-router';
 
 /**
 * @file UploadSolve.js
@@ -29,6 +30,17 @@ const UploadSolve = (props) => {
         algorithm: "",
         text: "",
     }]);
+
+    const navigate = useNavigate();
+
+    /**
+     * Check if the user is signed in, if they are, set user ID, if not, redirect them to the signin page.
+     */
+    useEffect(() => {
+        Axios.get(databaseURL + 'user/info', { withCredentials: true }).catch(_error => {
+            navigate('/login');
+        });
+    }, [navigate]);
 
     /**
      * Uploading a solve involves 2 sets of data, solve metadata, and steps.

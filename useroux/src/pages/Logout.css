@@ -1,0 +1,33 @@
+.Logout {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--background-color);
+}
+
+.Logout h1 {
+    color: var(--text-color);
+}
+
+.Logout a {
+    text-decoration: none;
+    color: var(--text-color);
+    background-color: var(--button-color);
+    font-weight: bold;
+    font-size: 1vw;
+    margin: 1%;
+    padding: 1%;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 1s ease;
+    -webkit-transition: background-color 1s ease;
+    -moz-transition: background-color 1s ease;
+}
+
+.Logout a:hover {
+    background-color: var(--button-hover);
+}

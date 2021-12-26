@@ -56,12 +56,6 @@
     align-items: center;
 }
 
-.SolveData h1 {
-    font-size: 1.5rem;
-    font-size: 1.5vw;
-    line-height: 0;
-}
-
 .SolveData h3 {
     font-weight: normal;
     font-size: 1.25rem;
@@ -73,7 +67,24 @@
     font-style: italic;
 }
 
-.SolveList ul li a {
+.SolveData .SolveTitle {
+    font-size: 1.5rem;
+    font-size: 1.5vw;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 0 2%;
+    color: var(--link-color);
+    transition: color 1s ease, background-color 1s ease;
+    -webkit-transition: color 1s ease, background-color 1s ease;
+    -moz-transition: color 1s ease, background-color 1s ease;
+}
+
+.SolveData .SolveTitle:hover {
+    color: var(--button-hover);
+    background-color: var(--background-hover);
+}
+
+.SolveList ul li > a {
     text-decoration: none;
     color: var(--text-color);
     background-color: var(--button-color);
@@ -86,6 +97,6 @@
     -moz-transition: background-color 1s ease;
 }
 
-.SolveList ul li a:hover {
+.SolveList ul li > a:hover {
     background-color: var(--button-hover);
 }

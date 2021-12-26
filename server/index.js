@@ -2,8 +2,8 @@ const { dbUsername, dbPassword, jwtSecret } = require('./private');
 
 const mysql = require('mysql');
 const express = require('express');
-const jwt = require('express-jwt');
 const jsonwebtoken = require("jsonwebtoken");
+const bcrypt = require('bcryptjs');
 const cors = require('cors');
 const cookie = require("cookie-parser");
 
@@ -35,7 +35,9 @@ const authenticated = (req, res, next) => {
                     success: false,
                     message: "You must be authenticated to do that."
                 });
+            req.user_id = decoded.id;
             req.username = decoded.username;
+            req.email = decoded.email;
             return next();
         });
     } else {
@@ -51,24 +53,26 @@ const login = (request, response) => {
     const password = request.body.password;
 
     if (email && password) {
-        connection.query('SELECT * FROM users WHERE email = ? AND password = ?', [email, password], (error, result) => {
-            if (error) {
-                response.send({ err: error });
-            } else {
-                if (result.length > 0) {
-                    const accessToken = jsonwebtoken.sign(
-                        {
-                            id: result[0].id,
-                            username: result[0].username,
-                        },
-                        jwtSecret);
+        connection.query('SELECT * FROM users WHERE email = ?', [email], (error, result) => {
+            if (error)
+                return response.send({ err: error });
+            if (result.length > 0) {
+                const pass = result[0].password;
+                if (!bcrypt.compareSync(password, pass))
+                    return response.send({ err: "Invalid email address and password combination." });
 
-                    response.cookie("access_token", accessToken, { httpOnly: true });
-                    response.send({ token: accessToken });
-                } else {
-                    response.send({ err: "Invalid email and password combination." })
-                }
+                const accessToken = jsonwebtoken.sign(
+                    {
+                        id: result[0].id,
+                        username: result[0].username,
+                        email: result[0].email,
+                    },
+                    jwtSecret);
+
+                response.cookie("access_token", accessToken, { httpOnly: true });
+                return response.send({ token: accessToken });
             }
+            return response.send({ err: "Invalid email address and password combination." });
         });
     }
 };
@@ -144,9 +148,9 @@ const uploadSolve = (request, response) => {
         }
 
         const query = 'INSERT INTO solutions (user_id, title, description, scramble, posted' + (time > 0 ? ', time' : '') +
-            ') VALUES (1, ?, ?, ?, NOW()' + (time > 0 ? ', ?' : '') + ')';
+            ') VALUES (?, ?, ?, ?, NOW()' + (time > 0 ? ', ?' : '') + ')';
 
-        const vals = [title, desc, scramble];
+        const vals = [request.user_id, title, desc, scramble];
         if (time > 0)
             vals.push(time);
 
@@ -191,7 +195,7 @@ const uploadSteps = (request, response) => {
 };
 
 const userData = (request, response) => {
-    return response.json({ id: request.id, username: request.username });
+    return response.json({ id: request.user_id, username: request.username, email: request.email });
 }
 
 app.get('/solve', getSolve);
