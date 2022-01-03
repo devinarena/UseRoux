@@ -6,6 +6,8 @@
   --button-hover: #3bacce;
   --remove-button-color: #ac0e0e;
   --remove-button-hover: #e61818;
+  --link-color: #4ecdf3;
+  --background-hover: rgba(0, 0, 0, 0.2);
 }
 
 body {

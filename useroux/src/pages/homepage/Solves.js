@@ -1,8 +1,9 @@
 
-import { useEffect, useState } from 'react';
-import { databaseURL } from '../Database';
-import Axios from 'axios';
 import './Solves.css';
+import { useEffect, useState } from 'react';
+import Axios from 'axios';
+import { Link } from 'react-router-dom';
+import { databaseURL } from '../../Database';
 
 /**
 * @file Solves.js
@@ -60,7 +61,7 @@ const Solves = (props) => {
                         return (
                             <li key={solve.id}>
                                 <div className="SolveData">
-                                    <h1>{solve.title}</h1>
+                                    <Link to={"/solve/" + solve.id} className="SolveTitle">{solve.title}</Link>
                                     <h3 className="Date">{solve.posted.split("T")[0]}</h3>
                                     <h3>{solve.username}</h3>
                                     {solve.time && <h3>{solve.time +" seconds"}</h3>}
