@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "checkJs": true,
+        "jsx": "react-jsx",
+        "module": "esnext",
+        "moduleResolution": "node"
+    }
+}
