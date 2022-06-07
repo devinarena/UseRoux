@@ -13,7 +13,7 @@ const Layout = ({ children, title }) => {
   return (
     <Box as="main" sx={{ width: "100%" }}>
       <Head>
-        <title>{title} - ExampleSolves</title>
+        <title>{title} - solves</title>
       </Head>
       <Navbar />
       {children}

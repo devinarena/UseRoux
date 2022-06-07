@@ -15,25 +15,26 @@ import Axios from "axios";
 import Router from "next/router";
 import Layout from "../components/layout";
 import ConfirmDialog from "../components/confirmDialog";
-import { databaseURL } from "../components/utility";
 
 /**
  * @file upload.js
  * @author Devin Arena
  * @since 1/7/2022
- * @description Page for uploading solves to the database. Users must be signed in to upload.
+ * @description Page for uploading solves to the database.
  */
 const Upload = (props) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [scramble, setScramble] = useState("");
   const [time, setTime] = useState(0);
+  const [nickname, setNickname] = useState("");
 
   const [deleteDialog, setDeleteDialog] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const [steps, setSteps] = useState([
     {
-      name: "Step 1",
+      title: "Step 1",
       description: "",
       algorithm: "",
     },
@@ -42,10 +43,6 @@ const Upload = (props) => {
 
   const [error, setError] = useState("");
   const [errorOpen, setErrorOpen] = useState(false);
-
-  useEffect(() => {
-    if (!props.userInfo || props.userInfo.err) Router.push("/login");
-  }, []);
 
   /**
    * General info for actual solve metadata (title, description, scramble, time)
@@ -76,7 +73,6 @@ const Upload = (props) => {
             <TextField
               margin="normal"
               fullWidth
-              required
               id="description"
               name="description"
               label="Description"
@@ -121,6 +117,18 @@ const Upload = (props) => {
                   setTime(parseFloat(e.target.value));
               }}
               helperText="Enter time in seconds, e.g. 24.87"
+            />
+            <TextField
+              margin="normal"
+              fullWidth
+              id="nickname"
+              name="nickname"
+              label="Nickname"
+              type="text"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+              inputProps={{ maxLength: 255 }}
+              helperText="Optional: Identify yourself with an anonymous nickname"
             />
             <Box
               sx={{
@@ -167,17 +175,17 @@ const Upload = (props) => {
               margin="normal"
               fullWidth
               required
-              id="name"
-              name="name"
-              label="Name"
+              id="title"
+              name="title"
+              label="title"
               type="text"
-              value={step.name}
+              value={step.title}
               onChange={(e) =>
                 setSteps(
                   steps.map((step, i) => {
                     if (i !== idx) return step;
                     return {
-                      name: e.target.value,
+                      title: e.target.value,
                       description: step.description,
                       algorithm: step.algorithm,
                     };
@@ -190,7 +198,6 @@ const Upload = (props) => {
             <TextField
               margin="normal"
               fullWidth
-              required
               id="description"
               name="description"
               label="Description"
@@ -204,7 +211,7 @@ const Upload = (props) => {
                   steps.map((step, i) => {
                     if (i !== idx) return step;
                     return {
-                      name: step.name,
+                      title: step.title,
                       description: e.target.value,
                       algorithm: step.algorithm,
                     };
@@ -212,7 +219,7 @@ const Upload = (props) => {
                 )
               }
               inputProps={{ maxLength: 4000 }}
-              helperText={`${description.length} / 4000`}
+              helperText={`${step.description.length} / 4000`}
             />
             <TextField
               margin="normal"
@@ -228,7 +235,7 @@ const Upload = (props) => {
                   steps.map((step, i) => {
                     if (i !== idx) return step;
                     return {
-                      name: step.name,
+                      title: step.title,
                       description: step.description,
                       algorithm: e.target.value,
                     };
@@ -286,7 +293,7 @@ const Upload = (props) => {
   const addStep = () => {
     setSteps((steps) =>
       steps.concat({
-        name: `Step ${steps.length + 1}`,
+        title: `Step ${steps.length + 1}`,
         description: "",
         algorithm: "",
       })
@@ -313,27 +320,17 @@ const Upload = (props) => {
     setError("");
     if (title.length == 0) {
       error = true;
-      setError("Solve title is a required field.");
-    }
-    if (description.length == 0) {
-      error = true;
-      setError((error) => error + "\nSolve description is a required field.");
+      setError("Solve: title is a required field.");
     }
     if (scramble.length == 0) {
       error = true;
-      setError((error) => error + "\nSolve scramble is a required field.");
+      setError((error) => error + "\nSolve: scramble is a required field.");
     }
     let i = 0;
     for (const step of steps) {
-      if (step.name.length == 0) {
+      if (step.title.length == 0) {
         error = true;
-        setError((error) => error + `\nStep ${i}: Name is a required field.`);
-      }
-      if (step.description.length == 0) {
-        error = true;
-        setError(
-          (error) => error + `\nStep ${i}: Description is a required field.`
-        );
+        setError((error) => error + `\nStep ${i}: Title is a required field.`);
       }
       if (step.algorithm.length == 0) {
         error = true;
@@ -363,34 +360,17 @@ const Upload = (props) => {
       title,
       description,
       scramble,
-      time,
+      time: time.toString(),
+      nickname,
+      steps,
     };
 
-    Axios.post(databaseURL + "/api/solve/upload", solveData, {
-      withCredentials: true,
-    })
+    Axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/upload`, solveData)
       .then((res) => {
-        const id = parseInt(res.data.id);
-        let stepNum = 1;
-
-        for (const step of steps) {
-          step.solveID = id;
-          step.stepNumber = stepNum++;
-        }
-
-        Axios.post(
-          databaseURL + "/api/solve/upload/steps",
-          { steps },
-          {
-            withCredentials: true,
-          }
-        )
-          .then((res) => {
-            Router.push(`/solve/${id}`);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        Router.push(`/solve/${res.data._id}`);
+      })
+      .catch((err) => {
+        console.log(err);
       })
       .catch((err) => {
         setError(err.toString());
@@ -435,7 +415,9 @@ const Upload = (props) => {
             >
               <Tab label="General" value="1" />
               {steps.map((step, idx) => {
-                return <Tab label={step.name} value={`${idx + 2}`} key={idx} />;
+                return (
+                  <Tab label={step.title} value={`${idx + 2}`} key={idx} />
+                );
               })}
             </TabList>
           </Box>
@@ -446,6 +428,12 @@ const Upload = (props) => {
         </TabContext>
       </Container>
       {errorSnackbar()}
+      <ConfirmDialog
+        open={dialogOpen}
+        setOpen={setDialogOpen}
+        title="Are you ready to post?"
+        description="Please double check your information. Once a solve is posted, there is no way to edit it. Ensure your solve start and ends in the intended state. If this is a public post, consider keeping your personal information anonymous."
+      />
     </Layout>
   );
 };
@@ -453,19 +441,7 @@ const Upload = (props) => {
 /**
  * Makes a request to Axios to check if the user is signed in.
  */
-Upload.getInitialProps = async ({ req }) => {
-  if (req && req.headers.cookie) {
-    const info = await Axios.get(databaseURL + "/api/user/myinfo", {
-      withCredentials: true,
-      headers: {
-        cookie: req.headers.cookie,
-      },
-    });
-
-    console.log(info);
-
-    return { userInfo: info.data };
-  }
+Upload.getInitialProps = async ({}) => {
   return {};
 };
 

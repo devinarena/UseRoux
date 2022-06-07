@@ -3,11 +3,12 @@ import { GridOn } from "@mui/icons-material";
 import NextLink from "next/link";
 
 /**
- * @file solvecard.js
+ * @file solveCard.js
  * @author Devin Arena
  * @since 1/5/2022
  * @description A homepage card containing solve summary information.
  */
+
 const SolveCard = (props) => {
   return (
     <Grid item xs={1}>
@@ -21,7 +22,7 @@ const SolveCard = (props) => {
           height: "100%",
         }}
       >
-        <NextLink href={`/solve/${props.solve.id}`} passHref>
+        <NextLink href={`/solve/${props.solve._id}`} passHref>
           <Link
             textAlign="center"
             sx={{ maxWidth: "100%", wordWrap: "break-word" }}
@@ -45,7 +46,7 @@ const SolveCard = (props) => {
             ? `${props.solve.time.slice(0, 12)} seconds`
             : "\u00A0"}
         </Typography>
-        <NextLink href={`/simulator?solve=${props.solve.id}`} passHref>
+        <NextLink href={`/simulator?solve=${props.solve._id}`} passHref>
           <IconButton color="primary">
             <GridOn />
           </IconButton>

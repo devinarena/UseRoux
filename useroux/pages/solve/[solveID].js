@@ -14,7 +14,6 @@ import NextLink from "next/link";
  * @description Solve information page, requests information from the database based on the url params.
  */
 const SolvePage = (props) => {
-
   /**
    * On page load, make a query to the server requesting the solve information.
    */
@@ -52,25 +51,25 @@ const SolvePage = (props) => {
             >
               {props.solve.posted.split("T")[0]}
             </Typography>
+            <Typography component="p" sx={{ fontSize: { sm: 18, md: 22 } }}>
+              {props.solve.description || "No description for this solve."}
+            </Typography>
             {props.solve.time && (
-              <Typography component="h1" variant="h6">
+              <Typography component="h1" variant="h6" sx={{ mx: "auto" }}>
                 {props.solve.time} seconds
               </Typography>
             )}
-            <Typography component="p" sx={{ fontSize: { sm: 18, md: 22 } }}>
-              {props.solve.description}
-            </Typography>
-            <NextLink href={`/simulator?solve=${props.solve.id}`} passHref>
+            <NextLink href={`/simulator?solve=${props.solve._id}`} passHref>
               <Button
                 endIcon={<GridOn />}
                 variant="outlined"
-                sx={{ mt: 4, mx: "auto" }}
+                sx={{ mt: 1, mx: "auto" }}
               >
                 Simulator
               </Button>
             </NextLink>
             {props.userInfo && props.solve.user_id === props.userInfo.id && (
-              <NextLink href={`/edit/${props.solve.id}`} passHref>
+              <NextLink href={`/edit/${props.solve._id}`} passHref>
                 <Button variant="contained" sx={{ mt: 2, mx: "auto" }}>
                   Edit Solve
                 </Button>
@@ -84,22 +83,14 @@ const SolvePage = (props) => {
 };
 
 SolvePage.getInitialProps = async ({ req, query }) => {
-  const res = await Axios.get(databaseURL + "/api/solve", {
-    params: { solveID: query.solveID },
-  });
-  const props = { solve: res.data };
-  if (req && req.headers.cookie) {
-    const info = await Axios.get(databaseURL + "/api/user/myinfo", {
-      withCredentials: true,
-      headers: {
-        cookie: req.headers.cookie,
-      },
-    });
+  const res = await Axios.get(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/solve`,
+    {
+      params: { _id: query.solveID },
+    }
+  );
 
-    props.userInfo = info.data;
-  }
-
-  return props;
+  return { solve: res.data };
 };
 
 export default SolvePage;

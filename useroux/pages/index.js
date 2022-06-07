@@ -8,9 +8,8 @@ import {
 } from "@mui/material";
 import Axios from "axios";
 import { useEffect, useState } from "react";
-import { databaseURL } from "../components/utility";
-import SolveCard from "../components/homepage/solvecard";
 import Layout from "../components/layout";
+import SolveCard from "../components/solveCard";
 
 /**
  * The home page containing user info, upload button, and list of solves.
@@ -29,10 +28,10 @@ const Home = (props) => {
       <Container maxWidth="md" sx={{ pt: 14 }}>
         <Box>
           <Typography component="h1" variant="h3" sx={{ fontWeight: "bold" }}>
-            ExampleSolves
+            solves.app
           </Typography>
           <Typography component="h1" variant="h5">
-            Learn from others and share your solves with the world.
+            Create your solve by entering its information below.
           </Typography>
         </Box>
 
@@ -42,12 +41,13 @@ const Home = (props) => {
           columns={{ xs: 1, sm: 2, md: 3 }}
           sx={{ mt: 1, justifyContent: "space-around" }}
         >
-          {(typeof props.solves.map === "function") &&
+          {typeof props.solves.map === "function" &&
             props.solves.map((solve) => {
-              return <SolveCard key={solve.id} solve={solve} />;
+              return <SolveCard key={solve._id} solve={solve} />;
             })}
         </Grid>
       </Container>
+
       <Snackbar
         open={noteOpen}
         autoHideDuration={15000}
@@ -62,12 +62,18 @@ const Home = (props) => {
 };
 
 Home.getInitialProps = async () => {
-  let res = await Axios.get(databaseURL + "/api/solve/solves", {
-    params: {
-      count: 50,
-    },
-  });
-  return { solves: res.data };
+  const res = await Axios.get(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/solves`
+  );
+
+  if (res.data.err) {
+    console.log(res.data.err);
+    return { solves: {} };
+  }
+
+  return {
+    solves: res.data,
+  };
 };
 
 export default Home;

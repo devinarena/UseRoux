@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import Axios from "axios";
 import { useTheme } from "@mui/material/styles";
-import { Upload, Person } from "@mui/icons-material";
+import { Upload, Menu as MenuIcon } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { databaseURL } from "./utility";
 import NextLink from "next/link";
@@ -24,21 +24,6 @@ import NextLink from "next/link";
  */
 const Navbar = (props) => {
   const [anchor, setAnchor] = useState(null);
-  const [user, setUser] = useState({});
-
-  /**
-   * When the navbar is loaded, get user information from the database (also checks if signed in).
-   */
-  useEffect(() => {
-    const checkSignedIn = async () => {
-      Axios.get(databaseURL + "/api/user/myinfo", {
-        withCredentials: true,
-      }).then((res) => {
-        if (res.data && !res.data.err) setUser(res.data);
-      });
-    };
-    checkSignedIn();
-  }, []);
 
   /**
    * Close the menu by setting the anchor.
@@ -60,35 +45,11 @@ const Navbar = (props) => {
         open={Boolean(anchor)}
         onClose={close}
       >
-        <MenuItem onClick={close}>Profile</MenuItem>
-        <MenuItem onClick={close}>Preferences</MenuItem>
         <MenuItem onClick={close}>Upload</MenuItem>
-        <NextLink href="/logout" passHref>
-          <MenuItem onClick={close}>Sign Out</MenuItem>
-        </NextLink>
-      </Menu>
-    );
-  };
-
-  /**
-   * A menu containing options for guests.
-   *
-   * @returns {JSX} of a menu for unauthenticated users.
-   */
-  const nonAuthMenu = () => {
-    return (
-      <Menu
-        id="profile-menu"
-        anchorEl={anchor}
-        open={Boolean(anchor)}
-        onClose={close}
-      >
-        <NextLink href="/login" passHref>
-          <MenuItem>Sign In</MenuItem>
-        </NextLink>
-        <NextLink href="/register" passHref>
-          <MenuItem>Register</MenuItem>
-        </NextLink>
+        <MenuItem onClick={close}>About</MenuItem>
+        <MenuItem onClick={close}>How it Works</MenuItem>
+        <MenuItem onClick={close}>Source Code</MenuItem>
+        <MenuItem onClick={close}>Contribute</MenuItem>
       </Menu>
     );
   };
@@ -122,7 +83,7 @@ const Navbar = (props) => {
             variant="h1"
             sx={{ fontSize: { xs: 20, sm: 30 } }}
           >
-            ExampleSolves
+            solves.app
           </Typography>
         </Link>
       </NextLink>
@@ -134,13 +95,13 @@ const Navbar = (props) => {
         </NextLink>
         <Button
           variant="text"
-          startIcon={<Person sx={{ fontSize: { xs: 20, sm: 24 } }} />}
+          endIcon={<MenuIcon sx={{ fontSize: { xs: 20, sm: 24 } }} />}
           onClick={(e) => setAnchor(e.target)}
           sx={{ fontWeight: "bold", fontSize: { xs: 12, sm: 16 } }}
         >
-          {user.id ? user.username : "Sign In"}
+          More
         </Button>
-        {user.id ? authMenu() : nonAuthMenu()}
+        {authMenu()}
       </Box>
     </Box>
   );

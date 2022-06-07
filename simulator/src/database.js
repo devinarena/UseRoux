@@ -19,8 +19,8 @@
 import Axios from "axios";
 import solved from "./cubestate/solved.json";
 
-const development = false;
-const connectURL = development
+const development = true;
+const serverURL = development
   ? "http://localhost:5000"
   : "http://73.156.33.157:5000";
 
@@ -48,68 +48,46 @@ const init = async () => {
     return;
   }
 
-  await Axios.get(connectURL + "/api/solve", {
+  await Axios.get(`${serverURL}/api/solve`, {
     params: {
-      solveID: solveID,
+      _id: solveID,
     },
   }).then((response) => {
-    if (response.data.err) {
-      window.location.href = "/simulator";
-    }
+    // if (response.data.err) {
+    //   window.location.href = "/simulator";
+    // }
+    console.log(response);
     solutionData = response.data;
-  });
-
-  await Axios.get(connectURL + "/api/solve/steps", {
-    params: {
-      solveID: solveID,
-    },
-  }).then((response) => {
-    if (response.data.err) {
-      steps[0] = {
-        name: response.data.err,
-        text: "",
-        algorithm: "",
-      };
-      return;
-    }
-    for (const step of response.data) {
-      steps[step.step_number] = {
-        name: step.name,
-        text: step.text,
-        algorithm: step.algorithm,
-      };
-    }
   });
 
   const buttons = dialogs.getElementsByClassName("guide-buttons")[0];
 
   dialogs.innerHTML = `<div class='guide-dialog'>
-            <h1>Example Solves</h1>
-            <p>Welcome to the example solve cubing simulator! You'll be walking through an example solve.</p>
+            <h1>UseRoux</h1>
+            <p>Welcome to the UseRoux cubing simulator! You'll be walking through an example solve.</p>
             <p>The cube on the left will follow the steps required to solve the cube. Try and follow along with these steps on your own cube.</p>
             <p>Use the buttons below to navigate the solve.</p>
         </div>`;
 
-  dialogs.innerHTML += `<div class='guide-dialog scramble hidden'>
-            <h1>${solutionData.title}</h1>
-            <h2>${solutionData.username}</h2>
-            <h3 class='italic'>${
-              solutionData.posted.toString().split("T")[0]
-            }</h3>
-            <p>${solutionData.description}</p>
-            <p>Scramble: ${solutionData.scramble}</p>
-        </div>`;
+  let intro = "";
 
-  for (const step in steps) {
-    let dialog = `<div class='guide-dialog step${step} hidden'>
-            <h1>${steps[step].name}</h1>`;
+  intro += `<div class='guide-dialog scramble hidden'>
+                          <h1>${solutionData.title}</h1>
+                          <h3 class='italic'>${
+                            solutionData.posted.split("T")[0]
+                          }</h3>`;
+  if (solutionData.description) intro += `<p>${solutionData.description}</p>`;
+  intro += `<p>Scramble: ${solutionData.scramble}</p>
+                      </div>`;
 
-    if (steps[step].text.length > 0) dialog += `<p>${steps[step].text}</p>`;
+  dialogs.innerHTML += intro;
 
-    dialog += `<p>Algorithm: ${steps[step].algorithm}</p>
-            </div>`;
-
-    dialogs.innerHTML += dialog;
+  for (const step of solutionData.steps) {
+    dialogs.innerHTML += `<div class='guide-dialog step hidden'>
+            <h1>${step.title}</h1>
+            <p>${step.description}</p>
+            <p>Moves: ${step.algorithm}</p>
+          </div>`;
   }
 
   dialogs.innerHTML += buttons.outerHTML;
@@ -132,4 +110,4 @@ const loadSolvedState = (cube) => {
   }
 };
 
-export { init, loadSolvedState, solutionData, steps };
+export { init, loadSolvedState, solutionData };
